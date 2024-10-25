@@ -23,11 +23,13 @@
 	}
 %>
 <center>
-<table width = "-----">
+<table width = "1500">
 	<tr>
 		<td align = "right">
-			<a href = "-----.jsp">-----</a>
+			<a href = "../user/loginForm.jsp">로그인</a>
+			<a href = "writeForm.jsp">글쓰기</a>
+			<a href = "deleteForm.jsp">글삭제</a>
+			<a href = "-----.jsp">메인으로</a>
 		</td>
 	</tr>
 </table>
-</center>
