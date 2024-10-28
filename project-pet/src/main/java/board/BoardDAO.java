@@ -36,7 +36,48 @@ public class BoardDAO {
 		if( rs != null ) { try { rs.close(); } catch ( SQLException e ) { e.printStackTrace(); } }
 	}
 	// 글 작성
+	public int write(BoardDTO dto) {
+	    int result = 0;
+	    try {
+	        conn = getConn();
+	        sql = "INSERT INTO board (post_id, bo_view, bo_like, title_head, bo_title, bo_writer, bo_content, bo_reg) "
+	                + "VALUES (board_seq.nextval, ?, ?, ?, ?, ?, ?, SYSDATE)";
+	        pstmt = conn.prepareStatement(sql);
+	        
+	        // 글 작성할 데이터 설정
+	        pstmt.setInt(1, dto.getBo_view());        // 조회수 초기값 (예: 0)
+	        pstmt.setString(2, dto.getBo_like());     // 좋아요 수 초기값 (예: "0")
+	        pstmt.setString(3, dto.getTitle_head());  // 제목 앞머리
+	        pstmt.setString(4, dto.getBo_title());    // 제목
+	        pstmt.setString(5, dto.getBo_writer());   // 작성자
+	        pstmt.setString(6, dto.getBo_content());  // 본문 내용
+	        
+	        result = pstmt.executeUpdate();  // 쿼리 실행 결과 반환
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        close(conn, pstmt, rs);  // 사용한 리소스 닫기
+	    }
+	    return result;  // 삽입된 행 수 반환 (성공 시 1, 실패 시 0)
+	}
+
 	// 글 개수
+	public int count() {
+		int result=0;
+		try {
+			conn=getConn();
+			pstmt=conn.prepareStatement("select count(*) from board");
+			rs=pstmt.executeQuery();
+			if( rs.next() ) {
+				result=rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+		return result;
+	}
 	// 글 목록
 	public ArrayList<BoardDTO> boardList(int start, int end) {
 		ArrayList<BoardDTO> contentList = new ArrayList<BoardDTO>();

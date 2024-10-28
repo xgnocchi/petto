@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="board.BoardDAO" %>
+<%@ page import="com.oreilly.servlet.MultipartRequest" %>
+<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
+<%@ page import="java.io.File" %>
 <% request.setCharacterEncoding("UTF-8"); %>
 <%-- 글쓰기 writePro --%>
 <h1>writePro.jsp</h1>
-<jsp:usebean id = "dto" class = "board.boardDTO" >
-<jsp.setProperty name = "dto" property = "*" />
-</jsp:usebean>
+<jsp:useBean id="dto" class="board.BoardDTO">
+	<jsp:setProperty name="dto" property="*" />
+</jsp:useBean>
 
 <%
 	String filePath = request.getRealPath("<<<<<<<이미지 저장할 경로>>>>>>>");    // 파일 경로
@@ -22,7 +25,6 @@
 	dto.setImg(img);
 	BoardDAO dao = BoardDAO.getInstance();
 	int result = dao.boardInsert(dto);
-	int result = dao.imgInsert(dto);
 	if( result == 1 ) {
 %>
 <script>
