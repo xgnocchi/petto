@@ -6,11 +6,11 @@ public class BoardDTO {
 	private String bo_like;			// 추천여부
 	private String title_head;		// 글머리
 	private String bo_title;		// 글 제목
+	private String bo_writer;		// 작성자
 	private String bo_content;		// 글 내용
 	private Timestamp bo_reg;		// 작성일
 	private Timestamp bo_update;	// 수정일
 	private Timestamp bo_deldate;	// 삭제일
-	
 	public int getPost_id() {
 		return post_id;
 	}
@@ -40,6 +40,12 @@ public class BoardDTO {
 	}
 	public void setBo_title(String bo_title) {
 		this.bo_title = bo_title;
+	}
+	public String getBo_writer() {
+		return bo_writer;
+	}
+	public void setBo_writer(String bo_writer) {
+		this.bo_writer = bo_writer;
 	}
 	public String getBo_content() {
 		return bo_content;

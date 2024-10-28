@@ -38,7 +38,73 @@ public class BoardDAO {
 	// 글 작성
 	// 글 개수
 	// 글 목록
+	public ArrayList<BoardDTO> boardList(int start, int end) {
+		ArrayList<BoardDTO> contentList = new ArrayList<BoardDTO>();
+		try {
+			conn = getConn();
+			sql ="select * from"
+					+ "(select b.*, rownum r from "
+					+ "(select * from board2 order by ref desc, re_step asc) b) "
+					+ "where r >= ? and r <= ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
+			rs = pstmt.executeQuery();
+			if( rs.next() ) {
+				do {
+					BoardDTO dto = new BoardDTO();
+					dto.setPost_id(rs.getInt("post_id"));
+					dto.setBo_view(rs.getInt("bo_view"));
+					dto.setBo_like(rs.getString("bo_like"));
+					dto.setTitle_head(rs.getString("title_head"));
+					dto.setBo_title(rs.getString("bo_title"));
+					dto.setBo_writer(rs.getString("bo_writer"));
+					dto.setBo_content(rs.getString("bo_content"));
+					dto.setBo_reg(rs.getTimestamp("bo_reg"));
+					dto.setBo_update(rs.getTimestamp("bo_update"));
+					dto.setBo_deldate(rs.getTimestamp("bo_deldate"));
+					contentList.add(dto);
+				} while(rs.next());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+		return contentList;
+	}
 	// 글 내용 + 조회수
+	public BoardDTO content(int num) {
+		BoardDTO dto = new BoardDTO();
+		try {
+			conn = getConn();
+			sql = "update board2 set readCount=readCount+1 where num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			sql = "select * from board2 where num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			if( rs.next() ) {
+				dto.setPost_id(rs.getInt("post_id"));
+				dto.setBo_view(rs.getInt("bo_view"));
+				dto.setBo_like(rs.getString("bo_like"));
+				dto.setTitle_head(rs.getString("title_head"));
+				dto.setBo_title(rs.getString("bo_title"));
+				dto.setBo_writer(rs.getString("bo_writer"));
+				dto.setBo_content(rs.getString("bo_content"));
+				dto.setBo_reg(rs.getTimestamp("bo_reg"));
+				dto.setBo_update(rs.getTimestamp("bo_update"));
+				dto.setBo_deldate(rs.getTimestamp("bo_deldate"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+		return dto;
+	}
 	// 글 수정 Form
 	// 글 수정 Pro
 	// 글 삭제

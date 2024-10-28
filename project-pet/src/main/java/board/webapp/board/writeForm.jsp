@@ -33,15 +33,15 @@
 	<input type="hidden" name="re_step" value="<%= re_step %>" />
 <table width="400" border="1" cellspacing="0" cellpadding="0" align="center" >
 	<tr>
-		<td align="right" colspan="2">
-			<a href="contentList.jsp">글목록</a>
+		<td width="100" align="center" >작성자</td>
+		<td width="300">
+			<input type="text" name="writer" size="20" maxlength="50" />
 		</td>
 	</tr>
 	<tr>
-		<td width="100" align="center" >작성자</td>
+		<td width="100" align="center" >비밀번호</td>
 		<td width="300">
-			<%= sid %>
-			<input type="hidden" name="writer" value="<%= sid %>" />
+			<input type="password" name="passwd" size="20" maxlength="10" />
 		</td>
 	</tr>
 	<tr>
@@ -67,12 +67,6 @@
 		</td>
 	</tr>
 	<tr>
-		<td width="100" align="center" >비밀번호</td>
-		<td width="300">
-			<input type="password" name="passwd" size="10" maxlength="10" />
-		</td>
-	</tr>
-	<tr>
 		<td colspan="2" align="center" >
 			<input type="submit" value="글쓰기" />
 			<input type="reset" value="다시쓰기" />
@@ -81,4 +75,3 @@
 	</tr>
 </table>
 </form>
-

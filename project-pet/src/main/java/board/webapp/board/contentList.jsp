@@ -16,20 +16,32 @@
 	int count = 0;    // 글 개수
 	
 	ArrayList<BoardDTO> list = null;
-//	BoardDAO dao = BoardDAO.getInstance();
+	BoardDAO dao = BoardDAO.getInstance();
 //	count = dao.-----();
 	if( count > 0 ) {    // 글 개수 > 0
 //		list = dao.-----(startRow, endRow);
 	}
 %>
-<center>
-<table width = "1500">
+<center><b>글목록 (전체 글 : <%= count %>)</b>
+<table width = "1000">
 	<tr>
 		<td align = "right">
+<%		if ( session.getAttribute("sid") == null ) { %>    <%-- 로그인이 되어있지 않을 때 --%>
 			<a href = "../user/loginForm.jsp">로그인</a>
 			<a href = "writeForm.jsp">글쓰기</a>
-			<a href = "deleteForm.jsp">글삭제</a>
 			<a href = "-----.jsp">메인으로</a>
+<%		} else { %>    <%-- 로그인이 되어있을 때 --%>
+			<a href = "../user/logout.jsp">로그아웃</a>
+			<a href = "-----.jsp">내 글 목록</a>
+			<a href = "writeForm.jsp">글쓰기</a>
+			<a href = "-----.jsp">메인으로</a>
+<%		} %>
 		</td>
 	</tr>
 </table>
+
+
+
+
+
+</center>
