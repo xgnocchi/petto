@@ -12,7 +12,7 @@
 </jsp:useBean>
 
 <%
-	String filePath = request.getRealPath("<<<<<<<이미지 저장할 경로>>>>>>>");    // 파일 경로
+	String filePath = application.getRealPath("board/imagessave");    // 파일 경로
 	int max = 1024*1024*5;    // 파일 크기
 	String enc="UTF-8";    // 인코딩
 	DefaultFileRenamePolicy dp = new DefaultFileRenamePolicy();    // 파일 이름 덮어쓰기 방지
@@ -21,10 +21,10 @@
 	String title = mr.getParameter("title");
 	String img = mr.getFilesystemName("img");
 	
-	dto.setTitle(title);
+	dto.setBo_title(bo_title);
 	dto.setImg(img);
 	BoardDAO dao = BoardDAO.getInstance();
-	int result = dao.boardInsert(dto);
+	int result = dao.boardWrite(dto);
 	if( result == 1 ) {
 %>
 <script>
@@ -32,3 +32,4 @@
 	window.location="contentList.jsp";
 </script>
 <%	} %>
+ 

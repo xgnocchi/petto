@@ -8,6 +8,7 @@ public class BoardDTO {
 	private String bo_title;		// 글 제목
 	private String bo_writer;		// 작성자
 	private String bo_content;		// 글 내용
+	private String bo_img;			// 이미지
 	private Timestamp bo_reg;		// 작성일
 	private Timestamp bo_update;	// 수정일
 	private Timestamp bo_deldate;	// 삭제일
@@ -52,6 +53,12 @@ public class BoardDTO {
 	}
 	public void setBo_content(String bo_content) {
 		this.bo_content = bo_content;
+	}
+	public String getBo_img() {
+		return bo_img;
+	}
+	public void setBo_img(String bo_img) {
+		this.bo_img = bo_img;
 	}
 	public Timestamp getBo_reg() {
 		return bo_reg;

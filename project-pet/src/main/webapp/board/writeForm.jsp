@@ -2,7 +2,19 @@
     pageEncoding="UTF-8"%>
 <%-- 글쓰기 writeForm --%>
 <h1>writeForm.jsp</h1>
+<script type = "text/javascript" sec = "../board/js/script.js" />
 
+
+
+
+
+
+
+
+
+
+
+<%--
 <script type="text/javascript" src="../js/script.js"></script>
 <%
 	String sid = (String)session.getAttribute("sid");
@@ -75,3 +87,4 @@
 	</tr>
 </table>
 </form>
+ --%>

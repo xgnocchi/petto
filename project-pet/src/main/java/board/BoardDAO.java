@@ -10,19 +10,17 @@ public class BoardDAO {
 	private static BoardDAO instance = new BoardDAO();    // 하나의 객체를 담을 정적 변수 선언
 	private BoardDAO() {}    // 외부에서 객체 생성하지 못함
 	public static BoardDAO getInstance() { return instance; }    // 정적 메서드
-	
 	private Connection conn;			// 사용할 객체 변수 선언 conn
 	private PreparedStatement pstmt;	// 사용할 객체 변수 선언 pstmt
 	private ResultSet rs;				// 사용할 객체 변수 선언 rs
 	private String sql;					// 사용할 객체 변수 선언 sql
-	
 	private Connection getConn() throws Exception {    // 공통으로 사용할 메서드 (DB 연결, 끊는 메서드)
 	
 	// 2. 드라이버 로딩
-		Class.forName("oracle.jdbc..driver.OracleDriver");
-		String url = "";
-		String user = "";
-		String pw = "";
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		String url = "jdbc:oracle:thin:@192.168.0.140:1521:orcl";
+		String user = "petto";
+		String pw = "2222";
 	
 	// 3. DB 연결 객체 생성
 		conn = DriverManager.getConnection(url, user, pw);
@@ -35,23 +33,28 @@ public class BoardDAO {
 		if( pstmt != null ) { try { pstmt.close(); } catch ( SQLException e ) { e.printStackTrace(); } }
 		if( rs != null ) { try { rs.close(); } catch ( SQLException e ) { e.printStackTrace(); } }
 	}
+	
 	// 글 작성
-	public int write(BoardDTO dto) {
+	public int boardWrite(BoardDTO dto) {
 	    int result = 0;
 	    try {
 	        conn = getConn();
-	        sql = "INSERT INTO board (post_id, bo_view, bo_like, title_head, bo_title, bo_writer, bo_content, bo_reg) "
-	                + "VALUES (board_seq.nextval, ?, ?, ?, ?, ?, ?, SYSDATE)";
+	        sql = "insert into board_main (post_id, bo_view, bo_like, title_head, bo_title, bo_writer, bo_content,"
+	        		+ "bo_img, bo_reg, bo_update, bo_delete) VALUES (board_seq.nextval, ?, ?, ?, ?, ?, ?,"
+	        		+ " sysdate, updateDate date, deleteDate date)";
 	        pstmt = conn.prepareStatement(sql);
-	        
 	        // 글 작성할 데이터 설정
-	        pstmt.setInt(1, dto.getBo_view());        // 조회수 초기값 (예: 0)
-	        pstmt.setString(2, dto.getBo_like());     // 좋아요 수 초기값 (예: "0")
-	        pstmt.setString(3, dto.getTitle_head());  // 제목 앞머리
-	        pstmt.setString(4, dto.getBo_title());    // 제목
-	        pstmt.setString(5, dto.getBo_writer());   // 작성자
-	        pstmt.setString(6, dto.getBo_content());  // 본문 내용
-	        
+	        pstmt.setInt(1, dto.getPost_id());
+	        pstmt.setInt(2, dto.getBo_view());        // 조회수 초기값 (예: 0)
+	        pstmt.setString(3, dto.getBo_like());     // 좋아요 수 초기값 (예: "0")
+	        pstmt.setString(4, dto.getTitle_head());  // 제목 앞머리
+	        pstmt.setString(5, dto.getBo_title());    // 제목
+	        pstmt.setString(6, dto.getBo_writer());   // 작성자
+	        pstmt.setString(7, dto.getBo_content());  // 본문 내용
+	        pstmt.setString(8, dto.getBo_img());	  // 이미지
+	        pstmt.setTimestamp(9, dto.getBo_reg());
+	        pstmt.setTimestamp(10, dto.getBo_update());
+	        pstmt.setTimestamp(11, dto.getBo_deldate());
 	        result = pstmt.executeUpdate();  // 쿼리 실행 결과 반환
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -60,13 +63,12 @@ public class BoardDAO {
 	    }
 	    return result;  // 삽입된 행 수 반환 (성공 시 1, 실패 시 0)
 	}
-
 	// 글 개수
 	public int count() {
 		int result=0;
 		try {
 			conn=getConn();
-			pstmt=conn.prepareStatement("select count(*) from board");
+			pstmt=conn.prepareStatement("select count(*) from board_main");
 			rs=pstmt.executeQuery();
 			if( rs.next() ) {
 				result=rs.getInt(1);
@@ -85,7 +87,7 @@ public class BoardDAO {
 			conn = getConn();
 			sql ="select * from"
 					+ "(select b.*, rownum r from "
-					+ "(select * from board2 order by ref desc, re_step asc) b) "
+					+ "(select * from board_main order by ref desc, re_step asc) b) "
 					+ "where r >= ? and r <= ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, start);
@@ -101,6 +103,7 @@ public class BoardDAO {
 					dto.setBo_title(rs.getString("bo_title"));
 					dto.setBo_writer(rs.getString("bo_writer"));
 					dto.setBo_content(rs.getString("bo_content"));
+					dto.setBo_img(rs.getString("bo_img"));
 					dto.setBo_reg(rs.getTimestamp("bo_reg"));
 					dto.setBo_update(rs.getTimestamp("bo_update"));
 					dto.setBo_deldate(rs.getTimestamp("bo_deldate"));
@@ -119,11 +122,11 @@ public class BoardDAO {
 		BoardDTO dto = new BoardDTO();
 		try {
 			conn = getConn();
-			sql = "update board2 set readCount=readCount+1 where num=?";
+			sql = "update board_main set readCount=readCount+1 where num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			pstmt.executeUpdate();
-			sql = "select * from board2 where num=?";
+			sql = "select * from board_main where num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
@@ -135,6 +138,7 @@ public class BoardDAO {
 				dto.setBo_title(rs.getString("bo_title"));
 				dto.setBo_writer(rs.getString("bo_writer"));
 				dto.setBo_content(rs.getString("bo_content"));
+				dto.setBo_img(rs.getString("bo_img"));
 				dto.setBo_reg(rs.getTimestamp("bo_reg"));
 				dto.setBo_update(rs.getTimestamp("bo_update"));
 				dto.setBo_deldate(rs.getTimestamp("bo_deldate"));

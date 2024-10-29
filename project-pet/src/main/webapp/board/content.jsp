@@ -65,5 +65,7 @@
 			<%= dto.getBo_deldate() %>
 		</td>
 	</tr>
+	
 </table>
 </center>
+ 
