@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="user.UserDAO" %>
+<%@ page import="user.UserDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,9 +11,22 @@
 <title>판매글 등록</title>
 </head>
 <body>
+<%
+	if(session.getAttribute("sid") == null) {
+%>
+	<script>
+		alert("로그인 후 이용가능 합니다.");
+		window.location="loginForm.jsp";
+	</script>
+<%	} %>
+<%
+	String userId = (String)session.getAttribute("sid");
+	UserDAO dao = UserDAO.getInstance();
+	UserDTO dto = dao.getUserInfo(userId);
+%>
 <form action="writeSellPro.jsp" method="post" name="userInput" onsubmit="return writeCheck()">
-<input type="hidden" name="idx" value="1" />
-<input type="hidden" name="nick" value="q" />
+<input type="hidden" name="idx" value="<%=dto.getIdx() %>" />
+<input type="hidden" name="nick" value="<%=dto.getUserNick() %>" />
 
 <table border="1">
 <tbody id="writeTable">
@@ -73,5 +88,6 @@
 </tbody>
 </table>
 </form>
+<button onclick="window.location='secondhandMain.jsp'">메인 페이지로 이동</button>
 </body>
 </html>

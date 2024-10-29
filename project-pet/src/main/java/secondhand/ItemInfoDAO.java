@@ -113,6 +113,7 @@ public class ItemInfoDAO {
 				dto.setNick(rs.getString("nick"));
 				dto.setReg(rs.getTimestamp("reg"));
 				dto.setViewCount(rs.getInt("view_count"));
+				dto.setIdx(rs.getInt("idx"));
 			}
 			sql = "update item_info set view_count=? where item_num=?";
 			pstmt = conn.prepareStatement(sql);

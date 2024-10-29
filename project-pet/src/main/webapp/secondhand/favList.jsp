@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="secondhand.ItemInfoDAO" %>
-<%@ page import="secondhand.ItemInfoDTO" %>
+<%@ page import="secondhand.FavListDAO" %>
+<%@ page import="secondhand.FavListDTO" %>
+<%@ page import="user.UserDAO" %>
+<%@ page import="user.UserDTO" %>
 <!DOCTYPE html>
 <center>
 <html>
@@ -10,7 +12,7 @@
 <meta charset="UTF-8">
 <%	request.setCharacterEncoding("UTF-8"); %>
 <%
-	ItemInfoDAO dao = ItemInfoDAO.getInstance();
+	FavListDAO dao = FavListDAO.getInstance();
 	// 페이지 처리
 	int pageSize = 10;	// 페이지에 보여질 글 개수
 	String pageNum = request.getParameter("pageNum");	// 페이지 번호
@@ -24,24 +26,41 @@
 	// 한 페이지에서 보여지는 마지박 글 번호
 	int endRow = (currentPage * pageSize);
 %>
-<title>판매글 목록</title>
+<%
+	if(session.getAttribute("sid") == null) {
+%>
+	<script>
+		alert("로그인 후 이용가능 합니다.");
+		window.location="loginForm.jsp";
+	</script>
+<%	} %>
+<%
+	String userId = (String)session.getAttribute("sid");
+	UserDAO userDao = UserDAO.getInstance();
+	UserDTO userDto = userDao.getUserInfo(userId);
+	int idx = userDto.getIdx();
+%>
+<title>찜 목록</title>
 </head>
 <body>
 <table width="1000">
 	<tbody align="center">
 		<tr align="center">
+			<th>찜 번호</th>
 			<th>상품 번호</th>
 			<th>상품명</th>
 			<th>가격</th>
-			<th>작성자</th>
-			<th>조회수</th>
-			<th>작성날짜</th>
+			<th>찜한 날짜</th>
+			<th>삭제</th>
 		</tr>
 <%
-		ArrayList<ItemInfoDTO> list = dao.list(startRow, endRow);
-		for( ItemInfoDTO dto : list ){
-%>
+		ArrayList<FavListDTO> list = dao.list(startRow, endRow, idx);
+		int favListNum = list.size() + 1;
+		for( FavListDTO dto : list ){
+			favListNum -= 1;
+%>		
 		<tr>
+			<td><%=favListNum %></td>
 			<td><%=dto.getItemNum() %></td>
 			<td>
 				<a href="contentSell.jsp?itemNum=<%=dto.getItemNum() %>"><%=dto.getName() %></a>
@@ -51,16 +70,17 @@
 <%			} else { %>
 				<td>협의</td>
 <%			} %>
-			<td><%=dto.getNick() %></td>
-			<td><%=dto.getViewCount() %></td>
-			<td><%=dto.getReg() %></td>
+			<td><%=dto.getFavDate() %></td>
+			<td>
+			<button onclick="window.location='deleteFav.jsp?favNum=<%=dto.getFavNum() %>'">삭제</button>
+			</td>
 		</tr>
 <%	} %>
 	</tbody>
 </table>
 <%
 	// 글 개수
-	int count = dao.count();
+	int count = dao.count(idx);
 	if(count > 0){	// 글이 있는 경우 <-> 글 없음
 		int pageCount = count / pageSize + (count%pageSize == 0 ? 0 : 1);
 		// 시작 페이지 
@@ -84,12 +104,12 @@
 		if(endPage < pageCount){
 %>			<a href="list.jsp?pageNum=<%=startPage + 10%>">[다음]</a>
 <%		}
-	}
+	} else {
 %>
-<%	if(session.getAttribute("sid") != null) { %>
-		<button onclick="window.location='writeSellForm1.jsp'">판매 글쓰기</button>
+	<h2>찜 목록에 상품이 없습니다.</h2>
 <%	} %>
-<button onclick="window.location='secondhandMain.jsp'">메인 페이지로 이동</button>
+	<button onclick="window.location='writeSellForm1.jsp'">판매 글쓰기</button>
+	<button onclick="window.location='secondhandMain.jsp'">메인 페이지로 이동</button>
 </body>
 </html>
 </center>

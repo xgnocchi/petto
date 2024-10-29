@@ -13,7 +13,7 @@ public class ItemInfoDTO {
 	private String nick;		// 판매자
 	private String content;		// 상세 내용
 	private String img;			// 첨부 사진
-	private int viewCount;			// 조회수
+	private int viewCount;		// 조회수
 	private Timestamp reg;		// 등록일
 	private Timestamp reReg;	// 재등록일
 	

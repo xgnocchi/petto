@@ -135,4 +135,29 @@ public class UserDAO {
 		return result;
 	}
 	
+	// 유저 정보 획득 메서드
+	public UserDTO getUserInfo(String userId) {
+		UserDTO dto = new UserDTO();
+		
+		try {
+			conn = getConn();
+			sql = "select * from users where userid = ?";
+			pstmt = conn.prepareCall(sql);
+			pstmt.setString(1, userId);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setUserId(rs.getString("userid"));
+				dto.setIdx(rs.getInt("idx"));
+				dto.setUserNick(rs.getString("usernick"));
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+		
+		return dto;
+	}
+	
 }//UserDAO
