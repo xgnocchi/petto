@@ -35,26 +35,24 @@ public class BoardDAO {
 	}
 	
 	// 글 작성
-	public int boardWrite(BoardDTO dto) {
+	public int boardWrite(BoardDTO dto) throws SQLException {
 	    int result = 0;
 	    try {
 	        conn = getConn();
-	        sql = "insert into board_main (post_id, bo_view, bo_like, title_head, bo_title, bo_writer, bo_content,"
-	        		+ "bo_img, bo_reg, bo_update, bo_delete) VALUES (board_seq.nextval, ?, ?, ?, ?, ?, ?,"
-	        		+ " sysdate, updateDate date, deleteDate date)";
+	        sql = "insert into board_main (post_id, bo_view, bo_like, title_head, bo_title, bo_writer, bo_content, bo_img, bo_reg, bo_update, bo_deldate) values (board_main_seq.nextval, ?, ?, '말머리', ?, ?, ?, ?, sysdate, ?, ?)";
 	        pstmt = conn.prepareStatement(sql);
 	        // 글 작성할 데이터 설정
-	        pstmt.setInt(1, dto.getPost_id());
-	        pstmt.setInt(2, dto.getBo_view());        // 조회수 초기값 (예: 0)
-	        pstmt.setString(3, dto.getBo_like());     // 좋아요 수 초기값 (예: "0")
-	        pstmt.setString(4, dto.getTitle_head());  // 제목 앞머리
-	        pstmt.setString(5, dto.getBo_title());    // 제목
-	        pstmt.setString(6, dto.getBo_writer());   // 작성자
-	        pstmt.setString(7, dto.getBo_content());  // 본문 내용
-	        pstmt.setString(8, dto.getBo_img());	  // 이미지
-	        pstmt.setTimestamp(9, dto.getBo_reg());
-	        pstmt.setTimestamp(10, dto.getBo_update());
-	        pstmt.setTimestamp(11, dto.getBo_deldate());
+//	        pstmt.setInt(1, dto.getPost_id());		
+	        pstmt.setInt(1, dto.getBo_view());        // 조회수 초기값 (예: 0)
+	        pstmt.setString(2, dto.getBo_like());     // 좋아요 수 초기값 (예: "0")
+//	        pstmt.setString(4, dto.getTitle_head());  // 제목 앞머리
+	        pstmt.setString(3, dto.getBo_title());    // 제목
+	        pstmt.setString(4, dto.getBo_writer());   // 작성자
+	        pstmt.setString(5, dto.getBo_content());  // 본문 내용
+	        pstmt.setString(6, dto.getBo_img());	  // 이미지
+//	        pstmt.setTimestamp(9, dto.getBo_reg());
+	        pstmt.setTimestamp(7, dto.getBo_update());
+	        pstmt.setTimestamp(8, dto.getBo_deldate());
 	        result = pstmt.executeUpdate();  // 쿼리 실행 결과 반환
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -63,6 +61,7 @@ public class BoardDAO {
 	    }
 	    return result;  // 삽입된 행 수 반환 (성공 시 1, 실패 시 0)
 	}
+
 	// 글 개수
 	public int count() {
 		int result=0;
@@ -85,10 +84,7 @@ public class BoardDAO {
 		ArrayList<BoardDTO> contentList = new ArrayList<BoardDTO>();
 		try {
 			conn = getConn();
-			sql ="select * from"
-					+ "(select b.*, rownum r from "
-					+ "(select * from board_main order by ref desc, re_step asc) b) "
-					+ "where r >= ? and r <= ? ";
+			sql ="select * from( select b.*, rownum r from(select * from board_main) b) where r >= ? and r <= ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
@@ -122,11 +118,11 @@ public class BoardDAO {
 		BoardDTO dto = new BoardDTO();
 		try {
 			conn = getConn();
-			sql = "update board_main set readCount=readCount+1 where num=?";
+			sql = "update board_main set bo_view=bo_view + 1 where post_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			pstmt.executeUpdate();
-			sql = "select * from board_main where num=?";
+			sql = "select * from board_main where post_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();

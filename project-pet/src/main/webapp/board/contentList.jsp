@@ -5,6 +5,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="board.BoardDAO" %>
 <%@ page import="board.BoardDTO" %>
+<h1>contentList.jsp</h1>
 <%
 	int pageSize = 10;    // 한 페이지에 보여질 글의 개수
 	String pageNum = request.getParameter("pageNum");    // 페이지 번호
@@ -52,10 +53,10 @@
 <table width = "1000" border = "1" cellpadding = "0" cellspacing = "0" align = "center">
 	<tr height = "30">
 		<td align = "center" width = "100">글번호</td>
-		<td align = "center" width = "400">글제목</td>
-		<td align = "center" width = "150">작성자</td>
+		<td align = "center" width = "500">글제목</td>
+		<td align = "center" width = "100">작성자</td>
 		<td align = "center" width = "200">작성일</td>
-		<td align = "center" width = "150">조회수</td>
+		<td align = "center" width = "100">조회수</td>
 	</tr>
 <%
 		for(int i=0; i<list.size(); i++) {
