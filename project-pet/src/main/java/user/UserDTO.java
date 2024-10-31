@@ -3,22 +3,14 @@ package user;
 import java.sql.Timestamp;
 
 public class UserDTO { //회원정보 
-	private int idx;		
-	private String user_id;
-	private String user_pw;
-	private String user_nick;
-	private String email;
-	private String phone;
-	private String phone_agency;
-	private Timestamp birth;
-	private String gender;
-	private String profile_img;
-	private Timestamp join_date;
-	private Timestamp last_date;
-	private String status;
+	private int idx;			//0 회원번호
+	private String userId;		//1 유저 아이디
+	private String userPw;		//2 유저 비밀번호
+	private String userNick;	//3 유저 닉네임 <-나중에 기본값으로 설정
+	private String email;		//4 이메일
+	private Timestamp signInDate; //5 가입일자
+	private String profileImg; //6 프로필 이미지 값
 	
-
-
 public void setIdx(int idx) {
 	this.idx = idx;
 }
@@ -26,67 +18,45 @@ public int getIdx() {
 	return idx;
 }
 
-public void setUser_id(String user_id) {
-	this.user_id = user_id;
+public void setUserId(String userId) {
+	this.userId = userId;
 }
-public String getUser_id() {
-	return user_id;
+public String getUserId() {
+	return userId;
 }
 
-public void setUser_pw(String user_pw) {
-	this.user_pw=user_pw;
+public void setUserPw(String userPw) {
+	this.userPw=userPw;
 }
-public String getUser_pw() {
-	return user_pw;
+public String getUserPw() {
+	return userPw;
+}
+
+public void setUserNick(String userNick) {
+	this.userNick = userNick;
+}
+public String getUserNick() {
+	return userNick;
 }
 
 public void setEmail(String email) {
 	this.email=email;
 }
-public String getEmail_pw() {
+public String getEmail() {
 	return email;
 }
 
-public void setPhone(String phone) {
-	this.phone = phone;
+public void setSignInDate(Timestamp signInDate) {
+	this.signInDate=signInDate;
 }
-public String getPhone() {
-	return phone;
-}
-
-public void setPhone_agency(String phone_agency) {
-	this.phone_agency = phone_agency;
-}
-public String getPhone_agency() {
-	return phone_agency;
+public Timestamp getsignInDate() {
+	return signInDate;
 }
 
-public void setBirth(Timestamp birth) {
-	this.birth = birth;
+public void setProfileImg(String profileImg) {
+	this.profileImg=profileImg;
 }
-public Timestamp getBirth() {
-	return birth;
+public String getProfileImg() {
+	return profileImg;
 }
-
-public void setGender(String gender) {
-	this.gender=gender;
-}
-public String getGender() {
-	return gender;
-}
-
-public void setProfile_img(String profile_img) {
-	this.profile_img=profile_img;
-}
-public String getProfile_img() {
-	return profile_img;
-}
-
-public void setJoin_date(Timestamp join_date) {
-	this.join_date =join_date;
-}
-public Timestamp getJoin_date() {
-	return join_date;
-}
-
 }//UserDTO

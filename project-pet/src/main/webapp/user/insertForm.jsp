@@ -1,34 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%--회원가입 폼--%>
+<%@page import="user.UserDAO"%>
+<%@page import="user.UserDTO"%>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 폼</title>
+    <title>회원가입</title>
+    <script type="text/javascript" src="../resources/js/user.js"></script>
 </head>
 <body>
-<%--memcheck 관리할 script 폴더 만들기 --%>
-    	<form action="insertPro.jsp" method="post" name="userInput" onsubmit="return memCheck()">
-		id : 	<input type="text" name="id" id="id"/> <br/>
-				<input type="button" value="중복확인" onclick="idCheck();"/> <br/>
+	
+
+<%
+		request.setCharacterEncoding("UTF-8");
+		String userId = request.getParameter("userId");
+		UserDTO dto = new UserDTO();
+		UserDAO dao = UserDAO.getInstance();
+	
+	 	if(userId!=null){
+			dto.setUserId(userId);
+		}
+
+	// 아이디 중복 확인 메서드
+	
+%>
+    	<form action="insertPro.jsp" method="post" name="userInput" onsubmit="return submitForm()">
+			<label for="userId">아이디:</label>
+			<input type="text" name="userId" id="userId"/>
+				<button type="button" onclick="userCheck()">중복검사</button> <br/>
 				<div id="idResult"></div>
-		pw : 	<input type="password" name="pw"/> <br/>
-		pw 확인 : <input type="password" name="pw2"/> <br/>
-		이름 : 	<input type="text" name="name"/> <br/>
-		생일 :	<input type="date" name="birth"/> <br/>
-		통신사 : 	<select name="phone1">
-					<option value="none">선택</option>
-					<option value="KT">KT</option>
-					<option value="SKT">SKT</option>
-					<option value="Uplus">U+</option>
-					<option value="알뜰폰">알뜰폰</option>					
-				</select> <br/>
-		전화번호:	<input type="text" name="phone2" placeholder="01012345678 형식"/> <br/>
-		성별 : 	<input type="radio" name="gender" value="m"/>남
-				<input type="radio" name="gender" value="w"/>여 <br/>
-				<input type="submit" value="확인"/>
+		pw : 	<input type="password" name="userPw"/> <br/>
+		pw 확인 : <input type="password" name="userPw2"/> <br/>
+		닉네임 : <input type="text" name="userNick"/> <br/>
+		이메일 : <input type="email" name="email"/> <br/>
+				<button type="submit">가입하기</button>		
+		</form>
+<%
+		
+%>		
+
 </body>
 </html>
