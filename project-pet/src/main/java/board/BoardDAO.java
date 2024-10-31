@@ -46,7 +46,7 @@ public class BoardDAO {
 //	        pstmt.setInt(1, dto.getPost_id());		
 	        pstmt.setInt(1, dto.getBo_view());        // 조회수 초기값 (예: 0)
 	        pstmt.setString(2, dto.getBo_like());     // 좋아요 수 초기값 (예: "0")
-//	        pstmt.setString(4, dto.getTitle_head());  // 제목 앞머리
+//	        pstmt.setString(, dto.getTitle_head());  // 제목 앞머리
 	        pstmt.setString(3, dto.getBo_title());    // 제목
 	        pstmt.setString(4, dto.getBo_writer());   // 작성자
 	        pstmt.setString(5, dto.getBo_content());  // 본문 내용
@@ -150,5 +150,5 @@ public class BoardDAO {
 	// 글 수정 Form
 	// 글 수정 Pro
 	// 글 삭제
-	
+	// 
 }
