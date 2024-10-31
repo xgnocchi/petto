@@ -10,7 +10,6 @@ public class UserDTO { //회원정보
 	private String email;		//4 이메일
 	private Timestamp signInDate; //5 가입일자
 	private String profileImg; //6 프로필 이미지 값
-	
 public void setIdx(int idx) {
 	this.idx = idx;
 }
@@ -31,7 +30,6 @@ public void setUserPw(String userPw) {
 public String getUserPw() {
 	return userPw;
 }
-
 public void setUserNick(String userNick) {
 	this.userNick = userNick;
 }
