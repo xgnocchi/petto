@@ -31,8 +31,6 @@
 	}else{//수정값 있음
 		dto.setProfileImg(img);
 	}
-	System.out.println("실제이름:"+img);
-	System.out.println("기존이름:"+orgImg);
 	
 	String userId=mr.getParameter("userId");
 	dto.setUserId(userId);

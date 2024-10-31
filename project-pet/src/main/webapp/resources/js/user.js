@@ -91,5 +91,19 @@
 		console.log("요청 처리완료");
 	}
 	
-	
+	function previewImage(event) {
+	    const file = event.target.files[0]; // 선택한 파일
+	    const preview = document.getElementById('preview'); // 미리보기 이미지 요소
+
+	    if (file) {
+	        const reader = new FileReader(); // FileReader 객체 생성
+	        reader.onload = function(e) {
+	            preview.src = e.target.result; // 읽은 파일을 미리보기 이미지로 설정
+	            preview.style.display = 'block'; // 이미지 표시
+	        }
+	        reader.readAsDataURL(file); // 파일을 Data URL로 읽음
+	    } else {
+	        preview.src = '../resources/image/profile-image.png'; // 파일이 없을 경우 이미지 초기화
+	    }
+	}
 }

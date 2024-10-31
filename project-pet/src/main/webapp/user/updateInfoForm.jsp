@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원정보수정</title>
+<script src="../resources/js/user.js"></script>
 </head>
 <body>
 <%
@@ -30,24 +31,23 @@
 <%
 		}else{
 %>
-			<p><img alt="프로필 이미지" src="../resources/image/<%=dto.getProfileImg()%>" width="100" height="100"> </p>
+			<p><img id="preview" alt="프로필 미리보기 이미지" src="../resources/image/<%=dto.getProfileImg()%>" width="100" height="100"> </p>
 <%		
 }
 %>		이미지 변경:
-		<input type="file" name="img" value="<%=dto.getProfileImg() %>"/> <br/>
+		<input type="file" name="img" accept="image/*" onchange="previewImage(event)" value="<%=dto.getProfileImg() %>"/> <br/>
 		<input type="hidden" name="orgImg" value="<%=dto.getProfileImg() %>"/> <br/>
 	<%--<img alt="" src="/project-pet/resources/image/<%=dto.getProfileImg() %>"/><br/>--%> 
 
-		<label>아이디</label>
-		<input name="userId" value="<%=sid%>" readonly/>
+		<label for="userId">아이디</label>
+		<input id="userId" name="userId" value="<%=sid%>" readonly/>
 		<br/>
-		<label>비밀번호</label>
 		<a>비밀번호</a>
 		<%--토글형태로 보이게 js작업 --%>
 		<div style="display:none;">
 			<div>
 				<label for="currentPw">현재 비밀번호</label>
-				<input id="currnetPw" type="password" name="userPw"/>
+				<input id="currentPw" type="password" name="userPw"/>
 			</div>
 			<div>
 				<label for="newPw">새 비밀번호</label>
@@ -66,6 +66,8 @@
 		<input id="nick" type="text" name="userNick" value="<%=dto.getUserNick()%>"/>
 	</div>
 	<input type="submit" value="확인"/>
+	<button type="button" onclick="history.go(-1)">취소</button>
 </form>
+
 </body>
 </html>
