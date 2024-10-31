@@ -18,6 +18,8 @@
 	<h3>[<%=sid %>]님 환영합니다.</h3>
 	<input type="button" value="회원탈퇴" onclick="window.location='deleteForm.jsp'"/>
 	<input type="button" value="로그아웃" onclick="window.location='logout.jsp'"/>
+	<input type="button" value="마이페이지" onclick="window.location='myPage.jsp'"/>
+
 	<%} %> 
 </body>
 </html>
