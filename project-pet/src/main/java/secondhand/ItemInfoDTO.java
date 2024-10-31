@@ -8,6 +8,8 @@ public class ItemInfoDTO {
 	private int idx;			// 회원 번호
 	private int itemId;			// 상품 분류
 	private int animId;			// 동물 분류
+	private int isSelling;		// 판매 상태
+	private int condition;		// 물품 상태
 	private String name;		// 상품명
 	private int price;			// 가격
 	private String nick;		// 판매자
@@ -43,6 +45,20 @@ public class ItemInfoDTO {
 	}
 	public int getAnimId () {
 		return animId;
+	}
+	
+	public void setIsSelling(int isSelling) {
+		this.isSelling = isSelling;
+	}
+	public int getIsSelling() {
+		return isSelling;
+	}
+	
+	public void setCondition(int condition) {
+		this.condition = condition;
+	}
+	public int getCondition() {
+		return condition;
 	}
 
 	public void setName (String name) {

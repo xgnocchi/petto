@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="../resources/js/writeSellForm.js"></script>
+<script type="text/javascript" src="../resources/js/writeSellForm.js"></script>
 <link rel="stylesheet" href="../resources/css/writeSellForm.css" />
 <title>판매글 등록</title>
 </head>
@@ -16,7 +16,7 @@
 %>
 	<script>
 		alert("로그인 후 이용가능 합니다.");
-		window.location="loginForm.jsp";
+		window.location="../user/loginForm.jsp";
 	</script>
 <%	} %>
 <%
@@ -24,10 +24,10 @@
 	UserDAO dao = UserDAO.getInstance();
 	UserDTO dto = dao.getUserInfo(userId);
 %>
-<form action="writeSellPro.jsp" method="post" name="userInput" onsubmit="return writeCheck()">
+<div class="divInput">
+<form action="writeSellPro.jsp" method="post" name="userInput" onsubmit="return writeCheck()" enctype="multipart/form-data">
 <input type="hidden" name="idx" value="<%=dto.getIdx() %>" />
 <input type="hidden" name="nick" value="<%=dto.getUserNick() %>" />
-
 <table border="1">
 <tbody id="writeTable">
 	<tr id="writeName" height="30px">
@@ -58,6 +58,17 @@
 		</select>
 		</td>
 	</tr>
+	<tr height="90px">
+		<td>상품 상태</td>
+		<td>
+			<input type="radio" name="condition" value="0"/>
+			<label>미개봉</label>		<br />
+			<input type="radio" name="condition" value="1"/>
+			<label>거의 새 것</label>	<br />
+			<input type="radio" name="condition" value="2"/>
+			<label>사용감 있음</label>	<br />
+		</td>
+	</tr>
 	<tr height="60px">
 		<td>가격</td>
 		<td>
@@ -68,16 +79,19 @@
 			<input type="text" name="price" disabled="disabled"/>
 		</td>
 	</tr>
-	<tr height="300">
+	<tr height="200px">
 		<td>상세 내용</td>
 		<td>
 		<textarea id="writeContent" name="content"></textarea>
 		</td>
 	</tr>
-	<tr height="30">
+	<tr height="330px">
 		<td>첨부 사진</td>
 		<td align="right">
-		<input type="file" name="img" />
+		<div class="addImage" id="image-show">
+		<img id="preview" class="imgSize"/>
+    	</div>
+    	<input type="file" accept="image/*" onchange="loadFile(this)" name="img" />
 		</td>
 	</tr>
 	<tr>
@@ -88,6 +102,9 @@
 </tbody>
 </table>
 </form>
+<div align="right">
 <button onclick="window.location='secondhandMain.jsp'">메인 페이지로 이동</button>
+</div>
+</div>
 </body>
 </html>

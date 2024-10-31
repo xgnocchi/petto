@@ -45,7 +45,7 @@ public class AnimCategoryDAO {
 		}
 		
 		// 동물 분류 꺼내는 메서드
-		public String getItem(int animId) {
+		public String getAnim(int animId) {
 			String anim = null;
 			
 			try {

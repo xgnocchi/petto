@@ -3,13 +3,24 @@
 <%@ page import="secondhand.ItemInfoDAO" %>
 <%@ page import="secondhand.ItemCategoryDAO" %>
 <%@ page import="secondhand.AnimCategoryDAO" %>
+<%@ page import="user.UserDAO" %>
+<%@ page import="user.UserDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <jsp:useBean id="infoDto" class="secondhand.ItemInfoDTO" />
 <jsp:setProperty name="infoDto" property="*" />
+<%	if(session.getAttribute("sid") == null) {%>
+	<script>
+		alert("로그인 후 이용가능 합니다.");
+		window.location="../user/loginForm.jsp";
+	</script>
+<%	} %>
 <%
+	String userId = (String)session.getAttribute("sid");
+	UserDAO userDao = UserDAO.getInstance();
+	UserDTO userDto = userDao.getUserInfo(userId);
 	ItemInfoDAO infoDao = ItemInfoDAO.getInstance();
 	int itemNum = Integer.parseInt(request.getParameter("itemNum"));
 	infoDto = infoDao.updateLoad(itemNum);
@@ -17,16 +28,15 @@
 	AnimCategoryDAO animCateDao = AnimCategoryDAO.getInstance();
 %>
 <script src="../resources/js/writeSellForm.js"></script>
+<link rel="styleSheet" href="../resources/css/defaultSet.css">
 <link rel="stylesheet" href="../resources/css/writeSellForm.css" />
 <title>판매글 수정</title>
 </head>
 <body>
+<div class="divListPart">
 <form action="updateSellPro.jsp" method="post" name="userInput" onsubmit="return writeCheck()">
-<%-- 로그인 처리후 수정 	--%>
-<input type="hidden" name="idx" value="1" />
-<input type="hidden" name="nick" value="q" />
-<%-- 				--%>
-
+<input type="hidden" name="idx" value="<%=userDto.getIdx() %>" />
+<input type="hidden" name="nick" value="<%=userDto.getUserNick() %>" />
 <input type="hidden" name="itemNum" value="<%=itemNum %>" />
 <table border="1">
 <tbody id="writeTable">
@@ -37,13 +47,88 @@
 	<tr height="30">
 		<td class="td_set">품목</td>
 		<td>
-		<%=itemCateDao.getItem(infoDto.getItemId()) %>
+		<select name="itemId">
+<%			if(infoDto.getItemId() == 1) {%>
+				<option value="1" selected>사료, 간식(용품)</option>
+<%			} else { %>
+				<option value="1">사료, 간식(용품)</option>
+<%			} %>
+<%			if(infoDto.getItemId() == 2) {%>
+				<option value="2" selected>장난감</option>
+<%			} else { %>
+				<option value="2">장난감</option>
+<%			} %>
+<%			if(infoDto.getItemId() == 3) {%>
+				<option value="3" selected>배변 용품</option>
+<%			} else { %>
+				<option value="3">배변 용품</option>
+<%			} %>
+<%			if(infoDto.getItemId() == 4) {%>
+				<option value="4" selected>가구</option>
+<%			} else { %>
+				<option value="4">가구</option>
+<%			} %>
+<%			if(infoDto.getItemId() == 5) {%>
+				<option value="5" selected>미용, 악세서리</option>
+<%			} else { %>
+				<option value="5">미용, 악세서리</option>
+<%			} %>
+<%			if(infoDto.getItemId() == 0) {%>
+				<option value="0" selected>기타</option>
+<%			} else { %>
+				<option value="0">기타</option>
+<%			} %>
+		</select>
 		</td>
 	</tr>
 	<tr height="30">
 		<td>동물 분류</td>
 		<td height="16">
-		<%=animCateDao.getItem(infoDto.getAnimId()) %>
+		<select name="animId">
+<%		if (infoDto.getAnimId() == 1) { %>
+			<option value="1" selected>강아지</option>
+<%		} else { %>
+			<option value="1">강아지</option>
+<%		} %>
+<%		if (infoDto.getAnimId() == 2) { %>
+			<option value="2" selected>고양이</option>
+<%		} else { %>
+			<option value="2">고양이</option>
+<%		} %>
+<%		if (infoDto.getAnimId() == 3) { %>
+			<option value="3" selected>소동물</option>
+<%		} else { %>
+			<option value="3">소동물</option>
+<%		} %>
+<%		if (infoDto.getAnimId() == 0) { %>
+			<option value="0" selected>기타</option>
+<%		} else { %>
+			<option value="0">기타</option>
+<%		} %>
+		</select>
+		</td>
+	</tr>
+	<tr height="30">
+		<td>상품 상태</td>
+		<td>
+<%			if(infoDto.getCondition() == 0) { %>
+				<input type="radio" name="condition" value="0" checked/>
+<%			} else { %>
+				<input type="radio" name="condition" value="0"/>
+<%			} %>
+			<label>미개봉</label>		<br />
+<%			if(infoDto.getCondition() == 1) { %>
+				<input type="radio" name="condition" value="1" checked/>
+<%			} else { %>
+				<input type="radio" name="condition" value="1"/>
+<%			} %>
+			<label>거의 새 것</label>	<br />
+<%			if(infoDto.getCondition() == 2) { %>
+				<input type="radio" name="condition" value="2" checked/>
+<%			} else { %>
+				<input type="radio" name="condition" value="2"/>
+<%			} %>
+			<label>사용감 있음</label>	<br />
 		</td>
 	</tr>
 	<tr height="60px">
@@ -77,13 +162,24 @@
 		</td>
 	</tr>
 	<tr>
+		<td>판매 상태</td>
+		<td>
+		<input type="radio" name="isSelling" value="1" />
+		<label>판매중</label>
+		<input type="radio" name="isSelling" value="0" />
+		<label>판매 종료</label>
+		</td>
+	</tr>
+	<tr>
 		<td colspan="2" align="right">
-		<input type="checkbox" name="isUpdateReg" value="1" />최신글로 등록
+		<input type="checkbox" name="isUpdateReg" value="1" />
+		<label>최신글로 등록</label>
 		<input type="submit" value="판매글 수정" />
 		</td>
 	</tr>
 </tbody>
 </table>
 </form>
+</div>
 </body>
 </html>

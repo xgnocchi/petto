@@ -45,12 +45,14 @@ public class ItemInfoDAO {
 		if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
 	}
 	// 글 목록
-	public ArrayList<ItemInfoDTO> list(int start, int end) {
+	public ArrayList<ItemInfoDTO> list(int start, int end, int onlySell) {
 		ArrayList<ItemInfoDTO> list = new ArrayList<ItemInfoDTO>();
+		String namePre = null;
 		
 		try {
 			conn=getConn();
 			sql = "select * from (select n.*, rownum r from (select * from item_info order by  re_reg desc) n) where r >= ? and r <= ?";
+			sql += (onlySell == 1) ? " and is_selling = 1" : "" ;
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
@@ -58,7 +60,13 @@ public class ItemInfoDAO {
 			while( rs.next() ) {
 				ItemInfoDTO dto = new ItemInfoDTO();
 				dto.setItemNum(rs.getInt("item_num"));
-				dto.setName(rs.getString("name"));
+				dto.setIsSelling(rs.getInt("is_selling"));
+				namePre = rs.getString("name");
+				if(namePre.length() > 10) {
+					dto.setName(namePre.substring(0, 9) + "...");
+				} else {
+					dto.setName(namePre);
+				}
 				dto.setPrice(rs.getInt("price"));
 				dto.setNick(rs.getString("nick"));
 				dto.setViewCount(rs.getInt("view_count"));
@@ -74,11 +82,12 @@ public class ItemInfoDAO {
 	}
 	
 	// 글 개수
-	public int count() {
+	public int count(int onlySell) {
 		int result = 0;
 		try {
 			conn=getConn();
 			sql="select count(*) from item_info";
+			sql += (onlySell == 1) ? " where is_selling = 1" : "" ;
 			pstmt=conn.prepareStatement(sql);
 			rs=pstmt.executeQuery();
 			if( rs.next() ) {
@@ -106,6 +115,8 @@ public class ItemInfoDAO {
 				dto.setName(rs.getString("name"));
 				dto.setItemId(rs.getInt("item_id"));
 				dto.setAnimId(rs.getInt("anim_id"));
+				dto.setIsSelling(rs.getInt("is_selling"));
+				dto.setCondition(rs.getInt("condition"));
 				dto.setPrice(rs.getInt("price"));
 				dto.setContent(rs.getString("content"));
 				dto.setImg(rs.getString("img"));
@@ -168,6 +179,7 @@ public class ItemInfoDAO {
 				dto.setName(rs.getString("name"));
 				dto.setItemId(rs.getInt("item_id"));
 				dto.setAnimId(rs.getInt("anim_id"));
+				dto.setCondition(rs.getInt("condition"));
 				dto.setPrice(rs.getInt("price"));
 				dto.setContent(rs.getString("content"));
 				dto.setImg(rs.getString("img"));
@@ -189,21 +201,18 @@ public class ItemInfoDAO {
 		
 		try {
 			conn = getConn();
-			sql = "update item_info set name=?, price=?, content=?, img=?, re_reg=";
-			if (isRegUpdate == 1) {
-				sql += "sysdate";
-			} else {
-				sql += "(select re_reg from item_info where item_num=?)";
-			}
-			sql += " where item_num=?";
+			sql = "update item_info set name=?, price=?, content=?, img=?, is_selling=?, condition=?, re_reg=";
+			sql += (isRegUpdate == 1) ? "sysdate where item_num=?" : "(select re_reg from item_info where item_num=?) where item_num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getName());
 			pstmt.setInt(2, dto.getPrice());
 			pstmt.setString(3, dto.getContent());
 			pstmt.setString(4, dto.getImg());
-			pstmt.setInt(5, dto.getItemNum());
+			pstmt.setInt(5, dto.getIsSelling());
+			pstmt.setInt(6, dto.getCondition());
+			pstmt.setInt(7, dto.getItemNum());
 			if (isRegUpdate == 0) {
-				pstmt.setInt(6, dto.getItemNum());
+				pstmt.setInt(8, dto.getItemNum());
 			}
 			
 			check = pstmt.executeUpdate();
@@ -226,16 +235,17 @@ public class ItemInfoDAO {
 		
 		try {
 			conn = getConn();
-			sql = "insert into item_info values(item_info_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, 0, sysdate, sysdate)";
+			sql = "insert into item_info values(item_info_seq.nextval, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?, 0, sysdate, sysdate)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, dto.getIdx());
 			pstmt.setInt(2, dto.getItemId());
 			pstmt.setInt(3, dto.getAnimId());
-			pstmt.setString(4, dto.getName());
-			pstmt.setInt(5, dto.getPrice());
-			pstmt.setString(6, dto.getNick());
-			pstmt.setString(7, dto.getContent());
-			pstmt.setString(8, dto.getImg());
+			pstmt.setInt(4, dto.getCondition());
+			pstmt.setString(5, dto.getName());
+			pstmt.setInt(6, dto.getPrice());
+			pstmt.setString(7, dto.getNick());
+			pstmt.setString(8, dto.getContent());
+			pstmt.setString(9, dto.getImg());
 			check = pstmt.executeUpdate();
 			
 			if (check == 1) {
