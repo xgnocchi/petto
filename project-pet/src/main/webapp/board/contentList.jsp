@@ -7,7 +7,7 @@
 <%@ page import="board.BoardDTO" %>
 <h1>contentList.jsp</h1>
 <%
-	int pageSize = 10;    // 한 페이지에 보여질 글의 개수
+	int pageSize = 20;    // 한 페이지에 보여질 글의 개수
 	String pageNum = request.getParameter("pageNum");    // 페이지 번호
 	if(pageNum == null) {    // 페이지 번호가 없을 경우
 		pageNum = "1";    // 기본값 1 넣어줌

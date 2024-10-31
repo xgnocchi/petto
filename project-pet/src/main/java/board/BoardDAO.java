@@ -39,13 +39,14 @@ public class BoardDAO {
 	    int result = 0;
 	    try {
 	        conn = getConn();
-	        sql = "insert into board_main (post_id, bo_view, bo_like, title_head, bo_title, bo_writer, bo_content, bo_img, bo_reg, bo_update, bo_deldate) values (board_main_seq.nextval, ?, ?, '말머리', ?, ?, ?, ?, sysdate, ?, ?)";
+	        sql = "insert into board_main (post_id, bo_view, bo_like, title_head, bo_title, bo_writer, bo_content, bo_img, bo_reg, bo_update, bo_deldate)"
+	        		+ "values (board_main_seq.nextval, ?, ?, '말머리', ?, ?, ?, ?, sysdate, ?, ?)";
 	        pstmt = conn.prepareStatement(sql);
 	        // 글 작성할 데이터 설정
 //	        pstmt.setInt(1, dto.getPost_id());		
 	        pstmt.setInt(1, dto.getBo_view());        // 조회수 초기값 (예: 0)
 	        pstmt.setString(2, dto.getBo_like());     // 좋아요 수 초기값 (예: "0")
-//	        pstmt.setString(4, dto.getTitle_head());  // 제목 앞머리
+//	        pstmt.setString(, dto.getTitle_head());  // 제목 앞머리
 	        pstmt.setString(3, dto.getBo_title());    // 제목
 	        pstmt.setString(4, dto.getBo_writer());   // 작성자
 	        pstmt.setString(5, dto.getBo_content());  // 본문 내용
@@ -53,7 +54,9 @@ public class BoardDAO {
 //	        pstmt.setTimestamp(9, dto.getBo_reg());
 	        pstmt.setTimestamp(7, dto.getBo_update());
 	        pstmt.setTimestamp(8, dto.getBo_deldate());
+
 	        result = pstmt.executeUpdate();  // 쿼리 실행 결과 반환
+	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    } finally {
@@ -89,8 +92,7 @@ public class BoardDAO {
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
 			rs = pstmt.executeQuery();
-			if( rs.next() ) {
-				do {
+			while(rs.next()) {
 					BoardDTO dto = new BoardDTO();
 					dto.setPost_id(rs.getInt("post_id"));
 					dto.setBo_view(rs.getInt("bo_view"));
@@ -104,7 +106,6 @@ public class BoardDAO {
 					dto.setBo_update(rs.getTimestamp("bo_update"));
 					dto.setBo_deldate(rs.getTimestamp("bo_deldate"));
 					contentList.add(dto);
-				} while(rs.next());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

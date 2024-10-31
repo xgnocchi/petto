@@ -29,24 +29,24 @@
 	<title>글 쓰기</title>
 </head>
 <body>
-<form name="f" action="writePro.jsp" method="post" onsubmit="return check()">
+<form name="f" action="writePro.jsp" method="post" enctype="multipart/form-data" onsubmit="return check()">
 
 	<div align="center">
 		<table border="1" width="1000">
 			<tr>
-				<td colspan="2" align="center">글작성</a></td>
+				<td colspan="2" align="center">글작성</td>
 			</tr>			
 			<tr>	
 				<td width="200" align="center">작성자</td>
-				<td><input type="text" name="bo_writer" ></td>
+				<td><input type="text" name="bo_writer"/></td>
 			</tr>
 			<tr>	
 				<td width="200" align="center">제목</td>
-				<td><input type="text" name="bo_title" style="width: 100%;"></td>
+				<td><input type="text" name="bo_title" style="width: 100%;"/></td>
 			</tr>
 			<tr>	
 				<td width="200" align="center">이미지</td>
-				<td><input type="file" name="bo_img"></td>
+				<td><input type="file" name="bo_img"/></td>
 			</tr>
 			<tr>	
 				<td width="200" align="center">내용</td>
@@ -54,7 +54,7 @@
 			</tr>
 			<tr>	
 				<td colspan="2" align="center">
-				 	<input type="submit" value="작성">
+				 	<input type="submit" value="작성"/>
 				</td>
 			</tr>
 		</table>
