@@ -10,6 +10,7 @@
 </head>
 <body>
 <%
+	request.setCharacterEncoding("UTF-8");
 	UserDTO dto = new UserDTO();
 	UserDAO dao = UserDAO.getInstance();
 

@@ -62,23 +62,12 @@ public class UserDAO {
 	public void insertUser(UserDTO dto) {
 		try {
 			conn = getConn();
-			sql="insert into users values(users_seq.NEXTVAL,?,?,?)";
+			sql="insert into users values(users_seq.NEXTVAL,?,?,?,?,'N',sysdate,'profile-image.png')";
 			pstmt =conn.prepareStatement(sql);
-			/*pstmt.setInt(1,dto.getIdx()); 키값처리어케하는지 찾아봐야함*/
 			pstmt.setString(1, dto.getUserId());
 			pstmt.setString(2, dto.getUserPw());
 			pstmt.setString(3, dto.getUserNick());
-			/*
-			pstmt.setString(5, dto.getUser_name());
-			pstmt.setString(6, dto.getEmail());
-			pstmt.setString(7, dto.getPhone());
-			pstmt.setString(8, dto.getPhone_agency());
-			pstmt.setString(9, dto.getAddress());
-			pstmt.setTimestamp(10, dto.getBirth());
-			pstmt.setString(11, dto.getGender());
-			pstmt.setString(12,dto.getProfile_img());
-			pstmt.setTimestamp(13, dto.getLast_date());
-*/
+			pstmt.setString(4, dto.getEmail());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,8 +81,8 @@ public class UserDAO {
 	public boolean confirmId(String id) {
 		boolean result = false;
 		try {
-			conn=getConn();
-			sql = "select * from users where userId=?";
+			conn=getConn();			
+			sql = "select count(*) from users where userId=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,id);
 			rs=pstmt.executeQuery();
@@ -133,6 +122,84 @@ public class UserDAO {
 			close(conn, pstmt, rs);
 		}
 		return result;
+	}
+	
+	/* 회원 탈퇴 */
+	private String sqlCheck=null;
+	private String sqlDelete=null;
+	public boolean deleteUser(String userId, String userPw) {
+		boolean isDel = false;
+		try {
+			conn = getConn();
+			
+			//로그인 상태와 입력 받은 비밀번호 확인
+			String sqlCheck = "select count(*) From users where userId=? and userPw=?";
+			pstmt = conn.prepareStatement(sqlCheck);
+			pstmt.setString(1, userId);
+			pstmt.setString(2, userPw);
+			
+			rs= pstmt.executeQuery();
+			
+			if(rs.next()&&rs.getInt(1)>0) { //비밀번호가 일치 하면
+				sqlDelete = "update users set userPw=null, userNick=null, email=null, isDel='Y', where userId=?";
+				pstmt = conn.prepareStatement(sqlDelete);
+				pstmt.setString(1, userId); //로그인한 아이디로 조회
+				
+				int rows = pstmt.executeUpdate();
+				isDel=(rows>0);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(conn, pstmt, rs);
+		}
+		return isDel; //탈퇴 여부 반환
+	}
+	
+	/* 마이페이지 */
+	// 로그인한 회원 정보 꺼내오기
+	public UserDTO userInfo(String id) {
+		UserDTO dto = new UserDTO();
+		try {
+			conn=getConn();
+			sql="select * from users where userId=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				dto.setUserPw(rs.getString("userPw"));
+				dto.setUserNick(rs.getString("userNick"));
+				dto.setEmail(rs.getString("email"));
+				dto.setSignInDate(rs.getTimestamp("signinDate"));
+				dto.setProfileImg(rs.getString("profileImg"));		
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(conn,pstmt,rs);
+		}
+		return dto;
+	}
+	
+	/* 회원정보 수정*/
+	//정보 수정하기
+	public void updateUser(UserDTO dto) {
+		try {
+			conn=getConn();
+			sql="update users set userNick=?, email=?, proFileImg=? where userId=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getUserNick());
+			pstmt.setString(2, dto.getEmail());
+			pstmt.setString(3, dto.getProfileImg());
+			pstmt.setString(4, dto.getUserId());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(conn,pstmt,rs);
+		}
+		
 	}
 	
 }//UserDAO
