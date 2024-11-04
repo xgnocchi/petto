@@ -89,6 +89,7 @@
 		}
 		// [이전] 페이지
 		if(startPage > 10){
+<<<<<<< HEAD
 %>			<a href="listSell.jsp?pageNum=<%=startPage - 10%>&onlySell=<%=onlySell%>">[이전]</a>
 <%		}
 		// [][][]...
@@ -98,6 +99,17 @@
 		// [다음] 페이지
 		if(endPage < pageCount){
 %>			<a href="listSell.jsp?pageNum=<%=startPage + 10%>&onlySell=<%=onlySell%>">[다음]</a>
+=======
+%>			<a href="listSell.jsp?pageNum=<%=startPage - 10%>">[이전]</a>
+<%		}
+		// [][][]...
+		for(int i = startPage; i <= endPage; i++){
+%>			<a href="listSell.jsp?pageNum=<%=i%>">[<%=i%>]</a>
+<%		}
+		// [다음] 페이지
+		if(endPage < pageCount){
+%>			<a href="listSell.jsp?pageNum=<%=startPage + 10%>">[다음]</a>
+>>>>>>> 0af717598ebae7b0795f31dad50097cb35657b7a
 <%		}
 	}
 %>

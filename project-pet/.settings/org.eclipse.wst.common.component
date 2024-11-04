@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<<<<<<< HEAD
                         
     
     
@@ -33,6 +34,27 @@
                     
 
 
+=======
+                
+    
+    
+    <wb-module deploy-name="project-pet">
+                
+        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+                                
+        
+        
+        <property name="context-root" value="project-pet"/>
+                                
+        
+        
+        <property name="java-output-path" value="/project-pet/build/classes"/>
+                            
+    
+    
+    </wb-module>
+            
+>>>>>>> 0af717598ebae7b0795f31dad50097cb35657b7a
 
 
 </project-modules>
