@@ -62,6 +62,15 @@
 		</td>
 	</tr>
 </table>
+<table width="1000" align="center">
+    <tr height="30">
+        <td colspan="2" align="right" class="button-container">
+            <input type="button" value="글수정" onclick="location.href='updateForm.jsp'" />
+            <input type="button" value="글삭제" onclick="location.href='deleteForm.jsp'" />
+            <input type="button" value="글목록" onclick="location.href='contentList.jsp'" />
+        </td>
+    </tr>
+</table>
 <br /><br /><br />
 <table width = "1000" border = "1" cellpadding = "0" cell spacing = "0" align = "center">
 	<tr height = "30">
