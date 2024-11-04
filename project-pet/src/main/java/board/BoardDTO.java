@@ -12,6 +12,7 @@ public class BoardDTO {
 	private Timestamp bo_reg;		// 작성일
 	private Timestamp bo_update;	// 수정일
 	private Timestamp bo_deldate;	// 삭제일
+	private String bo_password;		// 비밀번호
 	public int getPost_id() {
 		return post_id;
 	}
@@ -77,5 +78,11 @@ public class BoardDTO {
 	}
 	public void setBo_deldate(Timestamp bo_deldate) {
 		this.bo_deldate = bo_deldate;
+	}
+	public String getBo_password() {
+		return bo_password;
+	}
+	public void setBo_password(String bo_password) {
+		this.bo_password = bo_password;
 	}
 }

@@ -39,8 +39,8 @@ public class BoardDAO {
 	    int result = 0;
 	    try {
 	        conn = getConn();
-	        sql = "insert into board_main (post_id, bo_view, bo_like, title_head, bo_title, bo_writer, bo_content, bo_img, bo_reg, bo_update, bo_deldate)"
-	        		+ "values (board_main_seq.nextval, ?, ?, '말머리', ?, ?, ?, ?, sysdate, ?, ?)";
+	        sql = "insert into board_main (post_id, bo_view, bo_like, title_head, bo_title, bo_writer, bo_content, bo_img, bo_reg, bo_update, bo_deldate, bo_password)"
+	        		+ "values (board_main_seq.nextval, ?, ?, '말머리', ?, ?, ?, ?, sysdate, ?, ?, ?)";
 	        pstmt = conn.prepareStatement(sql);
 	        // 글 작성할 데이터 설정
 //	        pstmt.setInt(1, dto.getPost_id());		
@@ -54,6 +54,7 @@ public class BoardDAO {
 //	        pstmt.setTimestamp(9, dto.getBo_reg());
 	        pstmt.setTimestamp(7, dto.getBo_update());
 	        pstmt.setTimestamp(8, dto.getBo_deldate());
+	        pstmt.setString(9, dto.getBo_password());    // 비밀번호
 
 	        result = pstmt.executeUpdate();  // 쿼리 실행 결과 반환
 	        
@@ -105,6 +106,7 @@ public class BoardDAO {
 					dto.setBo_reg(rs.getTimestamp("bo_reg"));
 					dto.setBo_update(rs.getTimestamp("bo_update"));
 					dto.setBo_deldate(rs.getTimestamp("bo_deldate"));
+					dto.setBo_password(rs.getString("bo_password"));
 					contentList.add(dto);
 			}
 		} catch (Exception e) {
@@ -139,6 +141,7 @@ public class BoardDAO {
 				dto.setBo_reg(rs.getTimestamp("bo_reg"));
 				dto.setBo_update(rs.getTimestamp("bo_update"));
 				dto.setBo_deldate(rs.getTimestamp("bo_deldate"));
+				dto.setBo_password(rs.getString("bo_password"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -148,7 +151,91 @@ public class BoardDAO {
 		return dto;
 	}
 	// 글 수정 Form
+    public BoardDTO boardUpForm(int post_id) {
+        BoardDTO dto = new BoardDTO();
+		try {
+			conn=getConn();
+			sql = "select * from board_main where post_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, post_id);
+			rs = pstmt.executeQuery();
+			if( rs.next() ) {
+				dto.setPost_id(rs.getInt("post_id"));
+				dto.setBo_view(rs.getInt("bo_view"));
+				dto.setBo_like(rs.getString("bo_like"));
+				dto.setTitle_head(rs.getString("title_head"));
+				dto.setBo_title(rs.getString("bo_title"));
+				dto.setBo_writer(rs.getString("bo_writer"));
+				dto.setBo_content(rs.getString("bo_content"));
+				dto.setBo_img(rs.getString("bo_img"));
+				dto.setBo_reg(rs.getTimestamp("bo_reg"));
+				dto.setBo_update(rs.getTimestamp("bo_update"));
+				dto.setBo_deldate(rs.getTimestamp("bo_deldate"));
+				dto.setBo_password(rs.getString("bo_password"));
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+		return dto;
+	}
 	// 글 수정 Pro
+	public int boardUpPro(BoardDTO dto) {
+		int result =0;
+		String dbpw="";
+		try {
+			conn=getConn();
+			sql="select bo_password from board_main where post_id = ?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getPost_id());
+			rs = pstmt.executeQuery();
+			if( rs.next() ) {
+				dbpw=rs.getString("bo_password");
+				if( dbpw.equals(dto.getBo_password()) ) {
+                    sql = "update board_main set title_head=?, bo_title=?, bo_content, bo_img where post_id=?";
+					pstmt=conn.prepareStatement(sql);
+					pstmt.setString(1, dto.getTitle_head());
+					pstmt.setString(2, dto.getBo_title());
+					pstmt.setString(3, dto.getBo_content());
+					pstmt.setString(4, dto.getBo_img());
+					pstmt.setInt(5, dto.getPost_id());
+					result=pstmt.executeUpdate();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+		return result;
+	}
 	// 글 삭제
+	public int boardDelete(int post_id, String bo_password) {    // 글 삭제(+ 파일이름 리턴)
+		int result = 0;
+		String dbpw = "";
+		try {
+			conn = getConn();
+			sql = "select bo_password from board_main where post_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,post_id);
+			rs = pstmt.executeQuery();
+			if( rs.next() ) {
+				dbpw=rs.getString("bo_password");    // 삭제할 파일이름 얻기위한 쿼리문
+				if( dbpw.equals(bo_password) ) {
+					sql="delete from board_main where post_id=?";    // post_id에 해당하는 글 삭제
+					pstmt=conn.prepareStatement(sql);
+					pstmt.setInt(1, post_id);
+					result=pstmt.executeUpdate();
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+		return result;
+	}
 	// 
 }

@@ -4,6 +4,8 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="board.BoardDAO" %>
 <%@ page import="board.BoardDTO" %>
+<%@ page import="board.CategoryDAO" %>
+<%@ page import="board.CategoryDTO" %>
 <h1> content.jsp</h1>
 <%
 	int post_id = Integer.parseInt(request.getParameter("post_id"));	// 글번호
@@ -17,14 +19,7 @@
 	<tr height = "30">
 		<td align = "center" width = "100">글번호</td>
 		<td align = "center" width = "100"><%= dto.getPost_id() %></td>
-		<td align = "center" width = "100">
-			<select name="글머리" >
-				<option value="강아지" >강아지</option>
-				<option value="고양이" >고양이</option>
-				<option value="소동물" >소동물</option>
-				<option value="기타" >기타</option>
-			</select>
-		</td>
+		<td align = "center" width = "100">임시<%--<%= dto.getCategory_id %>--%></td>
 		<td align = "center" width = "100">글제목</td>
 		<td align = "center" width = "600"><%= dto.getBo_title() %></td>
 	</tr>
@@ -66,7 +61,7 @@
     <tr height="30">
         <td colspan="2" align="right" class="button-container">
             <input type="button" value="글수정" onclick="location.href='updateForm.jsp'" />
-            <input type="button" value="글삭제" onclick="location.href='deleteForm.jsp'" />
+            <input type="button" value="글삭제" onclick="window.location='deleteForm.jsp?post_id=<%=dto.getPost_id() %>&pageNum=<%=pageNum %>'" />
             <input type="button" value="글목록" onclick="location.href='contentList.jsp'" />
         </td>
     </tr>

@@ -10,6 +10,11 @@
 			f.bo_writer.focus()
 			return false
 		}
+		if (f.bo_password.value == ""){
+			alert("비밀번호를 입력해 주세요!")
+			f.bo_password.focus()
+			return false
+		}
 		if (f.bo_title.value == ""){
 			alert("제목을 입력해 주세요!")
 			f.bo_title.focus()
@@ -39,10 +44,21 @@
 			<tr>	
 				<td width="200" align="center">작성자</td>
 				<td><input type="text" name="bo_writer"/></td>
-			</tr>
+			</tr>			
 			<tr>	
+				<td width="200" align="center">비밀번호</td>
+				<td><input type="text" name="bo_password"/></td>
+			</tr>
+			<tr>
 				<td width="200" align="center">제목</td>
-				<td><input type="text" name="bo_title" style="width: 100%;"/></td>
+				<td>
+					<select name="글머리" >
+						<option value="1" >기타</option>
+						<option value="2" >강아지</option>
+						<option value="3" >고양이</option>
+						<option value="4" >소동물</option>
+					</select>
+				<input type="text" name="bo_title" style="width: 80%;"/></td>
 			</tr>
 			<tr>	
 				<td width="200" align="center">이미지</td>
