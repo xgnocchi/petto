@@ -6,6 +6,7 @@
 .project
 project1_DB.sql
 Severs/
+project-pet/
 
 # site template=============================
 ### Eclipse ###
@@ -125,4 +126,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+<<<<<<< HEAD
 # End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse
+=======
+# End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse
+>>>>>>> 51f9c2ead934db310fb92fdb49b94871608afb86
