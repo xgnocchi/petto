@@ -1,8 +1,10 @@
+<%@page import="javax.swing.event.ListDataEvent"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="secondhand.FavListDAO" %>
 <%@ page import="secondhand.FavListDTO" %>
+<%@ page import="secondhand.ItemInfoDAO" %>
 <%@ page import="user.UserDAO" %>
 <%@ page import="user.UserDTO" %>
 <!DOCTYPE html>
@@ -38,6 +40,7 @@
 	String userId = (String)session.getAttribute("sid");
 	UserDAO userDao = UserDAO.getInstance();
 	UserDTO userDto = userDao.getUserInfo(userId);
+	ItemInfoDAO infoDao = ItemInfoDAO.getInstance();
 	int idx = userDto.getIdx();
 	int count = dao.count(idx);
 %>
@@ -51,12 +54,14 @@
 			<tr align="center">
 				<th width="100">찜 번호</th>
 				<th width="100">상품 번호</th>
-				<th width="300">상품명</th>
+				<th width="100">판매 상태</th>
+				<th width="200">상품명</th>
 				<th width="100">가격</th>
 				<th width="150">찜한 날짜</th>
 				<th width="50">삭제</th>
 			</tr>
 <%
+			ArrayList<Integer> listDeleteNum = new ArrayList<Integer>();
 			ArrayList<FavListDTO> list = dao.list(startRow, endRow, idx);
 			int favListNum = list.size() + 1;
 			for( FavListDTO dto : list ){
@@ -65,9 +70,10 @@
 			<tr>
 				<td><%=favListNum %></td>
 				<td><%=dto.getItemNum() %></td>
+				<td><%=infoDao.getSellingStatus(dto.getItemNum()) == 1 ? "판매중" : "판매 종료" %></td>
 				<td>
 					<a href="contentSell.jsp?itemNum=<%=dto.getItemNum() %>"><%=dto.getName() %></a>
-				</td>
+				</td>	
 <%				if (dto.getPrice() != 0) { %>
 					<td><%=dto.getPrice() %></td>
 <%				} else { %>

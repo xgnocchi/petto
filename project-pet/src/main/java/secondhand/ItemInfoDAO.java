@@ -44,6 +44,30 @@ public class ItemInfoDAO {
 		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
 		if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
 	}
+	
+	// 판매 상태 리턴 메서드
+	public int getSellingStatus(int itemNum) {
+		int result = 0;
+		
+		try {
+			conn = getConn();
+			sql = "select is_selling from item_info where item_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, itemNum);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt("is_selling");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+		
+		return result;
+	}
+	
 	// 글 목록
 	public ArrayList<ItemInfoDTO> list(int start, int end, int onlySell) {
 		ArrayList<ItemInfoDTO> list = new ArrayList<ItemInfoDTO>();
@@ -51,8 +75,9 @@ public class ItemInfoDAO {
 		
 		try {
 			conn=getConn();
-			sql = "select * from (select n.*, rownum r from (select * from item_info order by  re_reg desc) n) where r >= ? and r <= ?";
-			sql += (onlySell == 1) ? " and is_selling = 1" : "" ;
+			sql = "select * from (select n.*, rownum r from (select * from item_info";
+			sql += (onlySell == 1) ? " where is_selling = 1" : "" ;
+			sql += " order by  re_reg desc) n) where r >= ? and r <= ?";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
