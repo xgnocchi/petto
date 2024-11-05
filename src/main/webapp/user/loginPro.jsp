@@ -22,7 +22,8 @@
 	
 	boolean result = dao.loginCheck(dto);
 	if(result == true){
-		session.setAttribute("sid",dto.getUserId());
+		session.setAttribute("sid",dto.getUserId()); //세션에 아이디 저장
+		session.setAttribute("sNick",dto.getUserNick()); //세션에 닉네임 저장
 		response.sendRedirect("main.jsp");
 	}else{
 %>

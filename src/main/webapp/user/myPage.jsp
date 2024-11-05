@@ -26,7 +26,18 @@
 		}
 	%>
 	<h3> <%=dto.getUserNick() %> 님의 마이페이지</h3>
-	<img alt="기본 프로필 이미지" src="../resources/image/<%=dto.getProfileImg() %>" width="100" heigth="100"/>
+<%	
+	if(dto.getProfileImg()=="profile-image.png"){
+%>
+		<img alt="기본 프로필 이미지" src="../resources/image/<%=dto.getProfileImg()%>" width="100" height="100"/>				
+<%
+	}else{
+		System.out.println(dto.getProfileImg());
+%>		
+		<img alt="프로필 이미지" src="../resources/image/<%=dto.getProfileImg() %>" width="100" height="100"/>
+<%	
+	}
+%>
 	<p>가입일자 : <fmt:formatDate value="<%=dto.getsignInDate() %>" pattern="yyyy-MM-dd"/> </p>
 	<span><b><%=dto.getUserNick() %></b>님</span>
 	<span>(<%=sid %>)</span> <br/>

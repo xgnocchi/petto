@@ -7,13 +7,12 @@
 <%@ page import="user.UserDTO" %>    
 <%	request.setCharacterEncoding("UTF-8");
 	UserDTO dto = new UserDTO();
-	String sid = (String)session.getAttribute("sid");
-	
-	
-	if(sid==null){
+	String sid = (String)session.getAttribute("sid"); // 세션 id 값 불러오기
+	if(sid==null){ // 세션 아이디 유무 체크(로그인상태인지 아닌지)
 		response.sendRedirect("loginForm.jsp");
 	}
 	dto.setUserId(sid);
+	
 		
 	String filePath = request.getRealPath("resources/image");
 	int max=1024*1024*5;
@@ -32,10 +31,16 @@
 		dto.setProfileImg(img);
 	}
 	
+	//새로 받은 값들
 	String userId=mr.getParameter("userId");
+	String userNick=mr.getParameter("userNick");
+	String email=mr.getParameter("email");
+	//dto에 설정
 	dto.setUserId(userId);
-	dto.setUserNick(mr.getParameter("userNick"));
-	dto.setEmail(mr.getParameter("email"));
+	dto.setUserNick(userNick);
+	dto.setEmail(email);
+	
+	session.setAttribute("sNick", userNick); // 닉네임 세션에 업데이트
 	
 	File f = new File(filePath+"/"+orgImg); // views/upload/기존img이름
 	

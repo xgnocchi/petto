@@ -22,7 +22,7 @@
 	}
 %>
 <h3>회원정보 수정</h3>
-<form name="userInput" action="updateInfoPro.jsp" method="post" enctype="multipart/form-data">
+<form onsubmit="return submitUpdateForm()" name="userInput" action="updateInfoPro.jsp" method="post" enctype="multipart/form-data">
 	<div>
 <%
 		if(dto.getProfileImg()==null){
@@ -60,10 +60,12 @@
 		</div>
 		<br>
 		<label for="email">이메일</label>
-		<input id="email" type="text" name="email" value="<%=dto.getEmail() %>"/>
+		<input id="email" type="text" name="email" id="email" value="<%=dto.getEmail() %>"/>
+		<div id="emailMessage"></div>
 		<br>
 		<label for="nick">닉네임</label>
 		<input id="nick" type="text" name="userNick" value="<%=dto.getUserNick()%>"/>
+		<div id="nickMessage"></div>
 	</div>
 	<input type="submit" value="확인"/>
 	<button type="button" onclick="history.go(-1)">취소</button>

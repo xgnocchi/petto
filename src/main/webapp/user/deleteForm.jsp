@@ -31,9 +31,8 @@
 			<label for="userPw">비밀번호:</label>
 			<input type="password" name="userPw" id="userPw"/> <br/>		
 		<a href="main.jsp">메인으로</a> <br/>
-		<button onclick="history.go(-1)">취소</button>
-		<button type="submit">확인</button>
-		
+		<button type="submit">확인</button>		
 	</form>
+	<button onclick="history.go(-1)">취소</button>
 </body>
 </html>

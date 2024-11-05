@@ -24,19 +24,19 @@
 			dto.setUserId(userId);
 		}
 
-	// 아이디 중복 확인 메서드
-	
 %>
     	<form action="insertPro.jsp" method="post" name="userInput" onsubmit="return submitForm()">
 			<label for="userId">아이디:</label>
-			<input type="text" name="userId" id="userId"/>
-				<button type="button" onclick="userCheck()">중복검사</button> <br/>
-				<div id="idResult"></div>
-		pw : 	<input type="password" name="userPw"/> <br/>
-		pw 확인 : <input type="password" name="userPw2"/> <br/>
-		닉네임 : <input type="text" name="userNick"/> <br/>
-		이메일 : <input type="email" name="email"/> <br/>
-				<button type="submit">가입하기</button>		
+			<input type="text" name="userId" id="userId"/>	
+			<button type="button" onclick="userCheck()">중복검사</button> <br/>
+			<div id="idResult"></div>
+			pw : 	<input type="password" name="userPw"/> <br/>
+			pw 확인 : <input type="password" name="userPw2"/> <br/>
+			<div id="pwMessage"></div>
+			닉네임 : <input type="text" name="userNick"/> <br/>
+			이메일 : <input type="text" name="email" id="email"/> <br/>
+			<div id="emailMessage"></div>
+			<button type="submit">가입하기</button>		
 		</form>
 <%
 		
