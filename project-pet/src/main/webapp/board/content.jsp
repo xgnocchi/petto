@@ -60,7 +60,7 @@
 <table width="1000" align="center">
     <tr height="30">
         <td colspan="2" align="right" class="button-container">
-            <input type="button" value="글수정" onclick="location.href='updateForm.jsp'" />
+            <input type="button" value="글수정" onclick="location.href='updateForm.jsp?post_id=<%= dto.getPost_id() %>&pageNum=<%= pageNum %>'" />
             <input type="button" value="글삭제" onclick="window.location='deleteForm.jsp?post_id=<%=dto.getPost_id() %>&pageNum=<%=pageNum %>'" />
             <input type="button" value="글목록" onclick="location.href='contentList.jsp'" />
         </td>
