@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%-- 게시판 글목록 contentList --%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="java.util.ArrayList"%>
@@ -30,12 +31,12 @@
 <%		if(session.getAttribute("sid") == null) { %>    <%-- 로그인 되어있지 않을 때 --%>
 			<a href = "../user/loginForm.jsp">로그인</a>
 			<a href = "writeForm.jsp">글쓰기</a>
-			<a href = "../user/main.jsp">메인으로</a>
+			<a href = "-----.jsp">메인으로</a>
 <%		} else { %>    <%-- 로그인이 되어있을 때 --%>
 			<a href = "../user/logout.jsp">로그아웃</a>
-			<a href = "myList.jsp">내 글 목록</a>
+			<a href = "-----.jsp">내 글 목록</a>
 			<a href = "writeForm.jsp">글쓰기</a>
-			<a href = "../user/main.jsp">메인으로</a>
+			<a href = "-----.jsp">메인으로</a>
 <%		} %>
 		</td>
 	</tr>

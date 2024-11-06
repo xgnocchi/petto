@@ -88,7 +88,7 @@ public class BoardDAO {
 		ArrayList<BoardDTO> contentList = new ArrayList<BoardDTO>();
 		try {
 			conn = getConn();
-			sql ="select * from( select b.*, rownum r from(select * from board_main order by bo_reg desc) b) where r >= ? and r <= ?";
+			sql ="select * from( select b.*, rownum r from(select * from board_main) b) where r >= ? and r <= ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
@@ -193,7 +193,7 @@ public class BoardDAO {
 			if( rs.next() ) {
 				dbpw=rs.getString("bo_password");
 				if( dbpw.equals(dto.getBo_password()) ) {
-                    sql = "update board_main set title_head=?, bo_title=?, bo_content=?, bo_img=? where post_id=?";
+                    sql = "update board_main set title_head=?, bo_title=?, bo_content, bo_img where post_id=?";
 					pstmt=conn.prepareStatement(sql);
 					pstmt.setString(1, dto.getTitle_head());
 					pstmt.setString(2, dto.getBo_title());
@@ -237,57 +237,5 @@ public class BoardDAO {
 		}
 		return result;
 	}
-	// 내 글 목록 1
-	public int countUserPosts(String sid) {
-	    int count = 0;
-	    String sql = "select count(*) from board_main where bo_writer = ?";
-	    try {
-	        conn = getConn();
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, sid);
-	        rs = pstmt.executeQuery();
-	        if (rs.next()) {
-	            count = rs.getInt(1);
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    } finally {
-	        close(conn, pstmt, rs);
-	    }
-	    return count;
-	}
-	// 내 글 목록 2
-	public ArrayList<BoardDTO> myList(int start, int end, String sid) {
-		ArrayList<BoardDTO> contentList = new ArrayList<BoardDTO>();
-		try {
-			conn = getConn();
-			sql ="select * from( select b.*, rownum r from(select * from board_main where bo_writer=? order by bo_reg desc) b) where r >= ? and r <= ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, sid);
-			pstmt.setInt(2, start);
-			pstmt.setInt(3, end);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-					BoardDTO dto = new BoardDTO();
-					dto.setPost_id(rs.getInt("post_id"));
-					dto.setBo_view(rs.getInt("bo_view"));
-					dto.setBo_like(rs.getString("bo_like"));
-					dto.setTitle_head(rs.getString("title_head"));
-					dto.setBo_title(rs.getString("bo_title"));
-					dto.setBo_writer(rs.getString("bo_writer"));
-					dto.setBo_content(rs.getString("bo_content"));
-					dto.setBo_img(rs.getString("bo_img"));
-					dto.setBo_reg(rs.getTimestamp("bo_reg"));
-					dto.setBo_update(rs.getTimestamp("bo_update"));
-					dto.setBo_deldate(rs.getTimestamp("bo_deldate"));
-					dto.setBo_password(rs.getString("bo_password"));
-					contentList.add(dto);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close(conn, pstmt, rs);
-		}
-		return contentList;
-	}
+	// 
 }
