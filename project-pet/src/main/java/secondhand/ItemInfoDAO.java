@@ -179,7 +179,6 @@ public class ItemInfoDAO {
 			check = pstmt.executeUpdate();
 			
 			result = (check == 1);
-			System.out.println(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

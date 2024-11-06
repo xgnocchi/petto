@@ -9,6 +9,7 @@ public class CommentDTO {
 	private int ref;			// 글 그룹
 	private int re_step;		// 스텝
 	private int re_level;		// 레벨
+	private int num;			// 글번호
 	
 	public Timestamp getCom_reg() {
 		return com_reg;
@@ -57,5 +58,11 @@ public class CommentDTO {
 	}
 	public void setRe_level(int re_level) {
 		this.re_level = re_level;
+	}
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
 	}
 }

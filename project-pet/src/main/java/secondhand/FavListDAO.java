@@ -119,6 +119,30 @@ public class FavListDAO {
 		return result;
 	}
 	
+	// 판매글 삭제시 찜목록 삭제 메서드
+	public boolean deleteItem(int itemNum) {
+		int check = 0;
+		boolean result = false;
+		
+		try {
+			conn = getConn();
+			sql = "delete from fav_list where item_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, itemNum);
+			
+			check = pstmt.executeUpdate();
+			
+			result = (check == 1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn, pstmt, rs);
+		}
+		
+		return result;
+	}
+	
 	// 글 목록
 	public ArrayList<FavListDTO> list(int start, int end, int idx) {
 		ArrayList<FavListDTO> list = new ArrayList<FavListDTO>();

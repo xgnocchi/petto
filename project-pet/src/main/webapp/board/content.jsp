@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="board.CategoryDTO" %>
+<%@ page import="board.CategoryDAO" %> 
 <%-- 글내용 content --%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="board.BoardDAO" %>
@@ -15,7 +17,7 @@
 	BoardDAO dao = BoardDAO.getInstance();
 	BoardDTO dto = dao.content(post_id);
 %>
-<table width = "1000" border = "1" cellpadding = "0" cell spacing = "0" align = "center">
+<table width = "1000" border = "1" cellpadding = "0" cellspacing = "0" align = "center">
 	<tr height = "30">
 		<td align = "center" width = "100">글번호</td>
 		<td align = "center" width = "100"><%= dto.getPost_id() %></td>
