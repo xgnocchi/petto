@@ -1,9 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<<<<<<< HEAD
 <%@ page import="board.BoardDTO" %>
 <%@ page import="board.BoardDAO" %>
 <%@ page import="user.UserDAO" %>
 <%@ page import="user.UserDTO" %>
+=======
+>>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 <%-- 글쓰기 writeForm --%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <link rel="stylesheet" type="text/css" href="../style.css">
@@ -30,6 +33,7 @@
 
 <html>
 <head>
+<<<<<<< HEAD
 <%
 	UserDAO userDao = UserDAO.getInstance();
 	UserDTO userDto = new UserDTO();
@@ -38,6 +42,8 @@
 	BoardDAO dao = BoardDAO.getInstance();
 	BoardDTO dto = dao.content(userDto.getIdx());
 %>
+=======
+>>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 	<title>글 쓰기</title>
 </head>
 <body>
@@ -50,6 +56,7 @@
 			</tr>			
 			<tr>	
 				<td width="200" align="center">작성자</td>
+<<<<<<< HEAD
 <%				if (sid != null) { %>
 					<td>
 					<input type="hidden" name="bo_writer" value="<%=userDto.getUserNick() %>" />
@@ -58,6 +65,9 @@
 <%				} else { %>
 					<td><input type="text" name="bo_writer" value="unknown" /></td>
 <%				} %>
+=======
+				<td><input type="text" name="bo_writer"/></td>
+>>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 			</tr>
 			<tr>	
 				<td width="200" align="center">제목</td>

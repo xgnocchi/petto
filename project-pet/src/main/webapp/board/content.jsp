@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<<<<<<< HEAD
 <%@ page import="board.CategoryDTO" %>
 <%@ page import="board.CategoryDAO" %> 
+=======
+>>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 <%-- 글내용 content --%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import="board.BoardDAO" %>
@@ -15,12 +18,25 @@
 	BoardDAO dao = BoardDAO.getInstance();
 	BoardDTO dto = dao.content(post_id);
 %>
+<<<<<<< HEAD
 <table width = "1000" border = "1" cellpadding = "0" cellspacing = "0" align = "center">
+=======
+<table width = "1000" border = "1" cellpadding = "0" cell spacing = "0" align = "center">
+>>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 	<tr height = "30">
 		<td align = "center" width = "100">글번호</td>
 		<td align = "center" width = "100"><%= dto.getPost_id() %></td>
 		<td align = "center" width = "100">
+<<<<<<< HEAD
 		
+=======
+			<select name="글머리" >
+				<option value="강아지" >강아지</option>
+				<option value="고양이" >고양이</option>
+				<option value="소동물" >소동물</option>
+				<option value="기타" >기타</option>
+			</select>
+>>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 		</td>
 		<td align = "center" width = "100">글제목</td>
 		<td align = "center" width = "600"><%= dto.getBo_title() %></td>

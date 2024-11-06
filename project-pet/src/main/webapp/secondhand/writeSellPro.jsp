@@ -36,6 +36,10 @@
 	String content = mr.getParameter("content");
 	String img = mr.getFilesystemName("img");
 	File f = mr.getFile("img");
+<<<<<<< HEAD
+=======
+	System.out.println(f.toString());
+>>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 	ItemInfoDAO dao = ItemInfoDAO.getInstance();
 
 	dto.setIdx(idx);

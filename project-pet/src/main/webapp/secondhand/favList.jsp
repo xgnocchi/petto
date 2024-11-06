@@ -104,6 +104,7 @@
 		}
 		// [이전] 페이지
 		if(startPage > 10){
+<<<<<<< HEAD
 %>			<a href="favList.jsp?pageNum=<%=startPage - 10%>">[이전]</a>
 <%		}
 		// [][][]...
@@ -113,6 +114,17 @@
 		// [다음] 페이지
 		if(endPage < pageCount){
 %>			<a href="favList.jsp?pageNum=<%=startPage + 10%>">[다음]</a>
+=======
+%>			<a href="list.jsp?pageNum=<%=startPage - 10%>">[이전]</a>
+<%		}
+		// [][][]...
+		for(int i = startPage; i <= endPage; i++){
+%>			<a href="list.jsp?pageNum=<%=i%>">[<%=i%>]</a>
+<%		}
+		// [다음] 페이지
+		if(endPage < pageCount){
+%>			<a href="list.jsp?pageNum=<%=startPage + 10%>">[다음]</a>
+>>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 	</p>
 <%		}
 	} else {

@@ -1,5 +1,6 @@
 package board;
 
+<<<<<<< HEAD
 import java.util.ArrayList;			// 
 import java.sql.Connection;			// 데이터베이스 연결 객체
 import java.sql.DriverManager;		// 
@@ -58,4 +59,8 @@ public class CategoryDAO {
 		return anim;
 	} 
 		
+=======
+public class CategoryDAO {
+	
+>>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 }
