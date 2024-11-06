@@ -56,7 +56,6 @@
 			</tr>			
 			<tr>	
 				<td width="200" align="center">작성자</td>
-<<<<<<< HEAD
 <%				if (sid != null) { %>
 					<td>
 					<input type="hidden" name="bo_writer" value="<%=userDto.getUserNick() %>" />
@@ -65,9 +64,6 @@
 <%				} else { %>
 					<td><input type="text" name="bo_writer" value="unknown" /></td>
 <%				} %>
-=======
-				<td><input type="text" name="bo_writer"/></td>
->>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 			</tr>
 			<tr>	
 				<td width="200" align="center">제목</td>

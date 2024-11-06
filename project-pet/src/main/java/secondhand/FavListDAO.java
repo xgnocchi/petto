@@ -119,7 +119,6 @@ public class FavListDAO {
 		return result;
 	}
 	
-<<<<<<< HEAD
 	// 판매글 삭제시 찜목록 삭제 메서드
 	public boolean deleteItem(int itemNum) {
 		int check = 0;
@@ -144,8 +143,6 @@ public class FavListDAO {
 		return result;
 	}
 	
-=======
->>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 	// 글 목록
 	public ArrayList<FavListDTO> list(int start, int end, int idx) {
 		ArrayList<FavListDTO> list = new ArrayList<FavListDTO>();
