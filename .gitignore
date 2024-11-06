@@ -4,7 +4,11 @@
 # petto =====================================
 .classpath
 .project
+<<<<<<< HEAD
 Servers/
+=======
+# Board
+>>>>>>> 3285fe278c081006be9297e969cc5d0c9ff1c893
 
 # site template=============================
 ### Eclipse ###
@@ -124,4 +128,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+<<<<<<< HEAD
 # End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse
+=======
+# End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse
+>>>>>>> 3285fe278c081006be9297e969cc5d0c9ff1c893
