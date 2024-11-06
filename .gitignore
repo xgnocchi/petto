@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+/.metadata/
+Servers/
+project1_DB.sql
+.project
+=======
 # Created by https://www.toptal.com/developers/gitignore/api/java,windows,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,windows,eclipse
 
@@ -125,3 +131,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse
+>>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
