@@ -8,18 +8,20 @@ import java.sql.SQLException;
 
 public class UserDAO {
 
+	/* 싱글톤 */
 	private static UserDAO instance = new UserDAO();
 	private UserDAO(){}
 	public static UserDAO getInstance() {
 		return instance;
 	}
 	
+	/* 공통 변수 선언 */
 	private Connection conn=null;
 	private PreparedStatement pstmt=null;
 	private ResultSet rs=null;
 	private String sql=null;
 	
-	/* getConn */
+	/* DB 연결 */
 	private Connection getConn() throws Exception{
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		String url = "jdbc:oracle:thin:@192.168.0.140:1521:orcl";
@@ -29,32 +31,11 @@ public class UserDAO {
 		return conn;
 	}//getConn
 	
-	/* close */
+	/* 연결해제 */
 	private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
-		if(conn!=null) {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		if(pstmt!=null) {
-			try {
-				pstmt.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(rs!=null) {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		}
+		if(conn!=null) {try {conn.close();} catch (SQLException e) {e.printStackTrace();}
+		if(pstmt!=null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+		if(rs!=null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}}
 	}//close
 	
 	/* 회원가입 insert */
@@ -97,6 +78,47 @@ public class UserDAO {
 		return result;
 	}//confirmId
 	
+	// 닉네임 중복 확인
+	public boolean confirmNick(String nick, String currentNick) {
+		boolean result = false;
+		try {
+			conn=getConn();			
+			sql = "select count(*) from users where userNick=? and userNick!=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,nick);
+			pstmt.setString(2,currentNick);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				result= rs.getInt(1)>0;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			close(conn,pstmt,rs);
+		}
+		return result;
+	}//confirmNick
+	
+	// 이메일 중복 확인
+	public boolean confirmEmail(String email) {
+		boolean result = false;
+		try {
+			conn=getConn();			
+			sql = "select count(*) from users where email=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,email);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				result= rs.getInt(1)>0;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			close(conn,pstmt,rs);
+		}
+		return result;
+	}//confirmEmail
+	
 	
 	/* 로그인 login */
 	// 로그인 확인
@@ -104,15 +126,17 @@ public class UserDAO {
 		boolean result = false;
 		try {
 			conn = getConn();
-			sql="select idx from users where userId=? and userPw=?";
+			sql="select idx,userNick from users where userId=? and userPw=?";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getUserId());
 			pstmt.setString(2, dto.getUserPw());
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
 				int r = rs.getInt(1);
+				String userNick = rs.getString("userNick");//닉네임 값 받기
 				if(r!=0) {
-				result = true;
+					dto.setUserNick(userNick);
+					result = true;
 				}
 			}
 		} catch (Exception e) {
@@ -123,30 +147,32 @@ public class UserDAO {
 		}
 		return result;
 	}
+	
 	// 유저 정보 획득 메서드
-	public UserDTO getUserInfo(String userId) {
-		UserDTO dto = new UserDTO();
-		
-		try {
-			conn = getConn();
-			sql = "select * from users where userid = ?";
-			pstmt = conn.prepareCall(sql);
-			pstmt.setString(1, userId);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				dto.setUserId(rs.getString("userid"));
-				dto.setIdx(rs.getInt("idx"));
-				dto.setUserNick(rs.getString("usernick"));
+		public UserDTO getUserInfo(String userId) {
+			UserDTO dto = new UserDTO();
+			
+			try {
+				conn = getConn();
+				sql = "select * from users where userid = ?";
+				pstmt = conn.prepareCall(sql);
+				pstmt.setString(1, userId);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					dto.setUserId(rs.getString("userid"));
+					dto.setIdx(rs.getInt("idx"));
+					dto.setUserNick(rs.getString("usernick"));
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				close(conn, pstmt, rs);
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(conn, pstmt, rs);
+			
+			return dto;
 		}
-		
-		return dto;
-	}
+	
 	/* 회원 탈퇴 */
 	private String sqlCheck=null;
 	private String sqlDelete=null;
@@ -224,4 +250,5 @@ public class UserDAO {
 		}
 		
 	}
+	
 }//UserDAO
