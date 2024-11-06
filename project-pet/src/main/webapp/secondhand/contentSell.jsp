@@ -9,10 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="styleSheet" href="../resources/css/defaultSet.css" />
-<<<<<<< HEAD
 <link rel="styleSheet" href="../resources/css/writeSellForm.css" />
-=======
->>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
 <jsp:useBean id="dto" class="secondhand.ItemInfoDTO" />
 <jsp:setProperty name="dto" property="*" />
 <jsp:useBean id="userDto" class="user.UserDTO" />
