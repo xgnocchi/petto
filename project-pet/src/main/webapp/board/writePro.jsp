@@ -18,7 +18,7 @@
 	BoardDAO dao = BoardDAO.getInstance();
 
     // ServletContext를 통해 절대 경로를 가져오고
-    String filePath = request.getRealPath("board/uploadImagessave");
+    String filePath = request.getRealPath("board/imagessave");
 	int max = 1024*1024*5;	// 파일 크기
 	String enc="UTF-8";	// 인코딩
 	DefaultFileRenamePolicy dp = new DefaultFileRenamePolicy();	// 파일 이름 덮어쓰기 방지 = 같은 이름 파일들 예-img1,img2,img3...	

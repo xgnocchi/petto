@@ -44,7 +44,6 @@ public class ItemInfoDAO {
 		if (pstmt != null) {try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
 		if (rs != null) {try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
 	}
-<<<<<<< HEAD
 	
 	// 판매 상태 리턴 메서드
 	public int getSellingStatus(int itemNum) {
@@ -69,8 +68,6 @@ public class ItemInfoDAO {
 		return result;
 	}
 	
-=======
->>>>>>> 0af717598ebae7b0795f31dad50097cb35657b7a
 	// 글 목록
 	public ArrayList<ItemInfoDTO> list(int start, int end, int onlySell) {
 		ArrayList<ItemInfoDTO> list = new ArrayList<ItemInfoDTO>();
@@ -78,14 +75,9 @@ public class ItemInfoDAO {
 		
 		try {
 			conn=getConn();
-<<<<<<< HEAD
 			sql = "select * from (select n.*, rownum r from (select * from item_info";
 			sql += (onlySell == 1) ? " where is_selling = 1" : "" ;
 			sql += " order by  re_reg desc) n) where r >= ? and r <= ?";
-=======
-			sql = "select * from (select n.*, rownum r from (select * from item_info order by  re_reg desc) n) where r >= ? and r <= ?";
-			sql += (onlySell == 1) ? " and is_selling = 1" : "" ;
->>>>>>> 0af717598ebae7b0795f31dad50097cb35657b7a
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
@@ -187,7 +179,6 @@ public class ItemInfoDAO {
 			check = pstmt.executeUpdate();
 			
 			result = (check == 1);
-			System.out.println(result);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

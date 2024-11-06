@@ -1,16 +1,10 @@
-<<<<<<< HEAD
 <%@page import="javax.swing.event.ListDataEvent"%>
-=======
->>>>>>> 0af717598ebae7b0795f31dad50097cb35657b7a
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="secondhand.FavListDAO" %>
 <%@ page import="secondhand.FavListDTO" %>
-<<<<<<< HEAD
 <%@ page import="secondhand.ItemInfoDAO" %>
-=======
->>>>>>> 0af717598ebae7b0795f31dad50097cb35657b7a
 <%@ page import="user.UserDAO" %>
 <%@ page import="user.UserDTO" %>
 <!DOCTYPE html>
@@ -46,10 +40,7 @@
 	String userId = (String)session.getAttribute("sid");
 	UserDAO userDao = UserDAO.getInstance();
 	UserDTO userDto = userDao.getUserInfo(userId);
-<<<<<<< HEAD
 	ItemInfoDAO infoDao = ItemInfoDAO.getInstance();
-=======
->>>>>>> 0af717598ebae7b0795f31dad50097cb35657b7a
 	int idx = userDto.getIdx();
 	int count = dao.count(idx);
 %>
@@ -63,21 +54,14 @@
 			<tr align="center">
 				<th width="100">찜 번호</th>
 				<th width="100">상품 번호</th>
-<<<<<<< HEAD
 				<th width="100">판매 상태</th>
 				<th width="200">상품명</th>
-=======
-				<th width="300">상품명</th>
->>>>>>> 0af717598ebae7b0795f31dad50097cb35657b7a
 				<th width="100">가격</th>
 				<th width="150">찜한 날짜</th>
 				<th width="50">삭제</th>
 			</tr>
 <%
-<<<<<<< HEAD
 			ArrayList<Integer> listDeleteNum = new ArrayList<Integer>();
-=======
->>>>>>> 0af717598ebae7b0795f31dad50097cb35657b7a
 			ArrayList<FavListDTO> list = dao.list(startRow, endRow, idx);
 			int favListNum = list.size() + 1;
 			for( FavListDTO dto : list ){
@@ -86,16 +70,10 @@
 			<tr>
 				<td><%=favListNum %></td>
 				<td><%=dto.getItemNum() %></td>
-<<<<<<< HEAD
 				<td><%=infoDao.getSellingStatus(dto.getItemNum()) == 1 ? "판매중" : "판매 종료" %></td>
 				<td>
 					<a href="contentSell.jsp?itemNum=<%=dto.getItemNum() %>"><%=dto.getName() %></a>
 				</td>	
-=======
-				<td>
-					<a href="contentSell.jsp?itemNum=<%=dto.getItemNum() %>"><%=dto.getName() %></a>
-				</td>
->>>>>>> 0af717598ebae7b0795f31dad50097cb35657b7a
 <%				if (dto.getPrice() != 0) { %>
 					<td><%=dto.getPrice() %></td>
 <%				} else { %>
@@ -126,15 +104,15 @@
 		}
 		// [이전] 페이지
 		if(startPage > 10){
-%>			<a href="list.jsp?pageNum=<%=startPage - 10%>">[이전]</a>
+%>			<a href="favList.jsp?pageNum=<%=startPage - 10%>">[이전]</a>
 <%		}
 		// [][][]...
 		for(int i = startPage; i <= endPage; i++){
-%>			<a href="list.jsp?pageNum=<%=i%>">[<%=i%>]</a>
+%>			<a href="favList.jsp?pageNum=<%=i%>">[<%=i%>]</a>
 <%		}
 		// [다음] 페이지
 		if(endPage < pageCount){
-%>			<a href="list.jsp?pageNum=<%=startPage + 10%>">[다음]</a>
+%>			<a href="favList.jsp?pageNum=<%=startPage + 10%>">[다음]</a>
 	</p>
 <%		}
 	} else {
