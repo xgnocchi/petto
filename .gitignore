@@ -1,20 +1,10 @@
-<<<<<<< HEAD
-/.metadata/
-Servers/
-project1_DB.sql
-.project
-=======
 # Created by https://www.toptal.com/developers/gitignore/api/java,windows,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,windows,eclipse
 
 # petto =====================================
 .classpath
 .project
-<<<<<<< HEAD
-Servers/
-=======
-# Board
->>>>>>> 3285fe278c081006be9297e969cc5d0c9ff1c893
+
 
 # site template=============================
 ### Eclipse ###
@@ -134,13 +124,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse
-=======
-# End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse
->>>>>>> 3285fe278c081006be9297e969cc5d0c9ff1c893
-=======
-# End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse
->>>>>>> 756f78808ed1fc76ab8b8bdd56b74ceaba4dbd2a
->>>>>>> 8502f563687284cf6941ba0dc0adcd5edc0c3b91
